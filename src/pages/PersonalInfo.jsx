@@ -1,15 +1,18 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+
 const PersonalInfo = () => {
   const geoAlphabetRegex = /^([\u10D0-\u10F0]+)$/;
   const phoneRegex = /^(\+?995)?(79\d{7}|5\d{8})$/;
+  const fieldStyle =
+    'border-solid border-2 rounded-md border-black h-16   ';
 
   const initialValues = {
     name: '',
     surname: '',
     image: '',
-    number: '',
+    phone: '',
     aboutUs: '',
     email: '',
   };
@@ -17,20 +20,26 @@ const PersonalInfo = () => {
     name: Yup.string()
       .matches(geoAlphabetRegex, 'მხოლოდ ქართული სიმბოლოები')
       .required('')
-      .min(2,'მინიმუმ 2 ასო,ქართული ასოები'),
+      .min(2, 'მინიმუმ 2 ასო,ქართული ასოები'),
     surname: Yup.string()
-      .required('required')
+      .required('')
       .min(2)
       .matches(geoAlphabetRegex, 'მხოლოდ ქართული სიმბოლოები'),
-    // image: yup.required('required'),
-    number: Yup.string()
+    image: Yup.mixed().required('File is required'),
+    phone: Yup.string()
       .matches(
         phoneRegex,
         'უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს'
       )
-      .required('required'),
-    email: Yup.string().required().matches(),
+      .required(''),
+    email: Yup.string()
+      .required()
+      .matches('@redberry.ge', 'უნდა მთავრდებოდეს @redberry.ge-თი'),
   });
+
+    const onsubmit = (event)=>{
+         
+        console.log(11111111111111)}
   return (
     <div className="m-24">
       <h1>პირადი ინფო</h1>
@@ -38,24 +47,70 @@ const PersonalInfo = () => {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={() => {}}
-        // validateOnChange={false}
-        // validateOnBlur={false}
+        onSubmit={onsubmit}
       >
         {(props) => (
-          <Form className="flex justify-center flex-col">
-            <label htmlFor="name">saxeli</label>
+          <Form className="flex justify-center flex-col ">
+            <div className="flex  gap-10 justify-between">
+              <div className="flex flex-col w-full   ">
+                <label htmlFor="name">სახელი:</label>
+                <Field
+                  type="text"
+                  name="name"
+                  placeholder="ანზორ"
+                  className={fieldStyle}
+                />
+                <ErrorMessage name="name" />
+              </div>
+              <div className="flex flex-col w-full   ">
+                <label htmlFor="surname">გვარი:</label>
+                <Field
+                  type="text"
+                  name="surname"
+                  placeholder="მუმალაძე"
+                  className={fieldStyle}
+                />
+                <ErrorMessage name="surname" />
+              </div>
+            </div>
+            <div className="mb-8">
+              <label htmlFor="name">ატვირთე:</label>
+              <Field type="file" name="image" />
+              <ErrorMessage name="image" />
+            </div>
+
+            <label htmlFor="name">ჩვენ შსახებ/არასავალდებულო:</label>
+            <Field
+              type="textarea"
+              name="aboutUs"
+              placeholder="ზოგი ინფო ჩვენს შესახებ"
+              className={fieldStyle}
+            />
+            <ErrorMessage name="aboutUs" />
+
+            <label htmlFor="name">ელ.ფოსტა</label>
             <Field
               type="text"
-              name="name"
-              placeholder="ანზორ"
-              className=" border-solid border-2 rounded-md border-[#dae3f0] h-16 w-full outline-none  focus-within:border-madart-orange registration-input "
+              name="email"
+              placeholder="anzor666@redberry.ge"
+              className={fieldStyle}
             />
-            <ErrorMessage name='name'/>
-            <Field type="text" name="surname" placeholder="მუმლაძე" />
-            <Field type="file" name="image" />
-            <Field type="phone" name="phone" />
-            <Field type="text" name="email" />
+            <ErrorMessage name="email" />
+
+            <label htmlFor="name">მობილურის ნომერი </label>
+            <Field
+              type="text"
+              name="phone"
+              placeholder="+995 599 77 90 56"
+              className={fieldStyle}
+            />
+            <ErrorMessage name="phone" />
+
+            <div className="flex  justify-end">
+              <button className=" p-4 bg-blue-600 w-[400px]" type='submit'>
+                შემდეგი
+              </button>
+            </div>
           </Form>
         )}
       </Formik>
