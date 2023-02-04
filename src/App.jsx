@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import PersonalInfo from './pages/PersonalInfo';
+import PersonalInfo from './pages/personal-info/PersonalInfo';
 const App = () => {
 
   return (
