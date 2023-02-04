@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useLocalStorageState } from '../../hooks/useLocalStorage';
 import { PROFILE_INFO_SCHEMA } from './schema/profile-info.schema';
+import FormikControl from '../../components/FormikControl';
 
 const LOCAL_STORAGE_KEY = 'personalInfoForm';
 const INITIAL_VALUES = {
@@ -20,74 +21,84 @@ const PersonalInfoForm = ({ saveForm, ...props }) => {
     saveForm(props.values);
   }, [props.values, saveForm]);
 
-  console.log(props);
-  const handleReset = React.useCallback(() => {
-    saveForm(INITIAL_VALUES);
-  }, [saveForm]);
+  // const handleReset = React.useCallback(() => {
+  //   saveForm(INITIAL_VALUES);
+  // }, [saveForm]);
 
   return (
     <Form className="flex justify-center flex-col ">
+      <h1>{JSON.stringify(props.values)}</h1>
       <div className="flex  gap-10 justify-between">
         <div className="flex flex-col w-full   ">
-          <label htmlFor="name">სახელი:</label>
-          <Field
+          <FormikControl
+            control="input"
             type="text"
+            label="სახელი"
             name="name"
             placeholder="ანზორ"
             className={fieldStyle}
           />
-          <ErrorMessage name="name" />
         </div>
         <div className="flex flex-col w-full   ">
-          <label htmlFor="surname">გვარი:</label>
-          <Field
+          <FormikControl
+            control="input"
             type="text"
+            label="გვარი"
             name="surname"
-            placeholder="მუმალაძე"
+            placeholder="მუმლაძე"
             className={fieldStyle}
           />
-          <ErrorMessage name="surname" />
         </div>
       </div>
       <div className="mb-8">
         <label htmlFor="name">ატვირთე:</label>
-        <Field type="file" name="image" />
+        <Field
+          type="file"
+          name="image"
+          // onChange={(e) => {
+          //   const fileReader = new FileReader();
+          //   let file = e.target.files[0];
+
+          //   fileReader.onloadend = () => {
+          //     props.setFieldValue('image', fileReader.result);
+          //   };
+
+          //   fileReader.readAsDataURL(file);
+          // }}
+        />
         <ErrorMessage name="image" />
       </div>
 
-      <label htmlFor="name">ჩვენ შსახებ/არასავალდებულო:</label>
-      <Field
-        type="textarea"
+      <FormikControl
+        control="textarea"
+        type="text"
+        label="თქვენ შესახებ/არასავალდებულო:"
         name="aboutUs"
         placeholder="ზოგი ინფო ჩვენს შესახებ"
         className={fieldStyle}
       />
-      <ErrorMessage name="aboutUs" />
 
-      <label htmlFor="name">ელ.ფოსტა</label>
-      <Field
+      <FormikControl
+        control="input"
         type="text"
+        label="ელ.ფოსტა"
         name="email"
         placeholder="anzor666@redberry.ge"
         className={fieldStyle}
       />
-      <ErrorMessage name="email" />
 
-      <label htmlFor="name">მობილურის ნომერი </label>
-      <Field
+      <FormikControl
+        control="input"
         type="text"
+        label="მობილურის ნომერი "
         name="phone"
         placeholder="+995 599 77 90 56"
         className={fieldStyle}
       />
-      <ErrorMessage name="phone" />
 
       <div className="flex  justify-end">
         <button className=" p-4 bg-blue-600 w-[400px]" type="submit">
           შემდეგი
-        </button>
-        <button type="reset" onClick={handleReset}>
-          Reset
         </button>
       </div>
     </Form>

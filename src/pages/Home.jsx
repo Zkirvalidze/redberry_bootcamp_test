@@ -6,7 +6,7 @@ const Home = () => {
   const HOME_BUTTON_TEXT = ' რეზიუმეს დამატება';
   return (
     <div
-      className={`bg-[url('src/assets/initPage_bg.jpeg')] h-screen px-[70px]  `}
+      className={`bg-[url('src/assets/initPage_bg.jpeg')] w-[1920px] h-[1080px] px-[70px]  `}
     >
       <div>
         <img src={logo1} alt="redberry logo" className="py-[38px] header " />
