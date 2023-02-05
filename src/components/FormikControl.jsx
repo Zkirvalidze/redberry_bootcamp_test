@@ -1,4 +1,6 @@
 import React from 'react';
+import DatePicker from './DatePicker';
+import BaseFileUploadSingle from './FIleUploadSingle';
 import Input from './Input';
 import Textarea from './Textarea';
 function FormikControl(props) {
@@ -6,12 +8,15 @@ function FormikControl(props) {
   switch (control) {
     case 'input':
       return <Input {...rest} />;
+    case 'upload-single':
+      return <BaseFileUploadSingle {...rest} />;
     case 'textarea':
       return <Textarea {...rest} />;
     case 'select':
     case 'radio':
     case 'checkbox':
-    case 'date':
+    case 'date': 
+    return <DatePicker {...rest}/>
     default:
       return null;
   }

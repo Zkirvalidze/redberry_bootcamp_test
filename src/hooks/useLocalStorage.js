@@ -9,16 +9,16 @@ export const useLocalStorageState = ({ key, value }) => {
   const handleUpdateLocalStorageState = useCallback(
     (x) => {
       setLocalStorageState(x);
-      console.log(x);
+
       localStorage.setItem(key, JSON.stringify(x));
     },
     [key]
   );
-// const image = localStorageState.image;
-// console.log(image, "Base64format")
-// const file = new File([image], 'image file name');
-// console.log(file, "From base64 to file")
-// localStorageState = {...localStorageState, image: file}
-// console.log(localStorageState)
+  // const image = localStorageState.image;
+  // console.log(image, "Base64format")
+  // const file = new File([image], 'image file name');
+  // console.log(file, "From base64 to file")
+  // localStorageState = {...localStorageState, image: file}
+  // console.log(localStorageState)
   return [localStorageState, handleUpdateLocalStorageState];
 };
