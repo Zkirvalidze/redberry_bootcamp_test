@@ -1,62 +1,51 @@
+import { Stack, Box } from '@mui/material';
 import React from 'react';
 import FormikControl from './FormikControl';
-import { fieldStyle } from '../pages/personal-info/PersonalInfo';
-const StepOne = () => {
 
+import InputField from './InputField';
+const StepOne = () => {
   return (
     <>
-      <div className="flex gap-[68px] py-[77px]  ">
-        <div className="flex flex-col w-full   ">
-          <FormikControl
-            control="input"
-            type="text"
-            label="სახელი"
-            name="name"
-            placeholder="ანზორ"
-            className={fieldStyle}
-          />
-        </div>
-        <div className="flex flex-col w-full   ">
-          <FormikControl
-            control="input"
-            type="text"
-            label="გვარი"
-            name="surname"
-            placeholder="მუმლაძე"
-            className={fieldStyle}
-          />
-        </div>
-      </div>
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{
+          marginTop: '40px',
+          marginBottom: '40px',
+        }}
+      >
+        <Box>
+          <InputField label="სახელი" name="name" placeholder="ანზორ" />
+        </Box>
+        <Box>
+          <InputField label="გვარი" name="surname" placeholder="მუმლაძე" />
+        </Box>
+      </Stack>
 
       <FormikControl name="image" control="upload-single" />
-      <FormikControl
-        control="textarea"
-        type="text"
-        label="თქვენ შესახებ/არასავალდებულო:"
+      <InputField
+        label="ჩვენს შესახებ"
         name="aboutUs"
         placeholder="ზოგი ინფო ჩვენს შესახებ"
-        className={fieldStyle}
+        multiline
+        minRows={2}
+        maxRows={4}
       />
 
-      <FormikControl
-        control="input"
-        type="text"
+      <InputField
         label="ელ.ფოსტა"
         name="email"
         placeholder="anzor666@redberry.ge"
-        className={fieldStyle}
       />
 
-      <FormikControl
+      <InputField
         control="input"
-        type="text"
         label="მობილურის ნომერი "
         name="phone"
         placeholder="+995 599 77 90 56"
-        className={fieldStyle}
       />
     </>
   );
 };
-
 export default StepOne;

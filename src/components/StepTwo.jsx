@@ -1,43 +1,68 @@
 import React from 'react';
-import FormikControl from './FormikControl';
-import { fieldStyle } from '../pages/personal-info/PersonalInfo';
+
+import InputField from './InputField';
+import { Stack, Box } from '@mui/material';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import { useField, useFormikContext } from 'formik';
+
 const StepTwo = () => {
+  const { values, setFieldValue, ...props } = useFormikContext();
+
   return (
     <>
-      <FormikControl
-        control="input"
-        type="text"
+      <InputField
         label="თანამდებობა"
         name="position"
         placeholder="დეველოპერი, დიზაინერი, ა.შ."
-        className={fieldStyle}
       />
-      <FormikControl
-        control="input"
-        type="text"
+      <InputField
         label="დამსამებელი"
         name="employer"
         placeholder="დამსაქმებელი"
-        className={fieldStyle}
       />
-      <div className="flex gap-[68px] py-[77px]  ">
-        <div className="flex flex-col w-full   ">
-          <FormikControl
-            control="date"
-            label="დაწყების რიცხვი"
-            name="startDate"
-            className={fieldStyle}
-          />
-        </div>
-        <div className="flex flex-col w-full   ">
-          <FormikControl
-            control="date"
-            label="დამთავრების რიცხვი"
-            name="endDate"
-            className={fieldStyle}
-          />
-        </div>
-      </div>
+      <Stack
+        direction="row"
+        spacing={25}
+        // display='flex'
+
+        my="40px"
+      >
+        <Box width="100%" mb={2}>
+          {/* Material Ui Date Picker */}
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              id="startDate"
+              inputVariant="outlined"
+              format="MM/dd/yyyy"
+              value={values.startDate}
+              onChange={(value) => setFieldValue('startDate', value)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </Box>
+        <Box width="100%" mb={2}>
+          {/* Material Ui Date Picker */}
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              id="endDate"
+              inputVariant="outlined"
+              format="MM/dd/yyyy"
+              value={values.endDate}
+              onChange={(value) => setFieldValue('endDate', value)}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </Box>
+      </Stack>
     </>
   );
 };
