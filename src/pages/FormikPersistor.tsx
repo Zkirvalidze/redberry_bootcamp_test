@@ -28,6 +28,7 @@ class FormikPersistor extends PureComponent<FormikPersistorProps> {
 
   componentDidUpdate() {
     const { values, errors } = this.props;
+    
     sessionStorage.setItem(this.storageKey, JSON.stringify({ values, errors }));
   }
 
@@ -36,6 +37,7 @@ class FormikPersistor extends PureComponent<FormikPersistorProps> {
   }
 
   get storageKey() {
+    
     return `formik.form.${this.props.name}`;
   }
 
@@ -54,14 +56,15 @@ const FormikPersist = ({ name }: { name: string }) => (
   <FormikConsumer>
     {({ values, errors, setValues, setErrors }) => (
       <FormikPersistor
-        name={name}
-        setValues={setValues}
-        setErrors={setErrors}
-        values={values}
-        errors={errors}
+      name={name}
+      setValues={setValues}
+      setErrors={setErrors}
+      values={values}
+      errors={errors}
       />
-    )}
+      )}
   </FormikConsumer>
+      
 );
 
 export default FormikPersist;

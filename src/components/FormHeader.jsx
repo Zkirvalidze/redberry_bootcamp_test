@@ -15,7 +15,7 @@ const FormHeader = ({ headerText, pageNumber }) => {
         </button>
       </Box>
 
-      <Box sx={{ paddingTop: '50px' }} width="780px">
+      <Box sx={{ paddingTop: '50px' }} >
         <Box display="flex" justifyContent="space-between">
           <h1 className="font-semibold text-lg">{headerText}</h1>
           <span>{pageNumber}/3</span>

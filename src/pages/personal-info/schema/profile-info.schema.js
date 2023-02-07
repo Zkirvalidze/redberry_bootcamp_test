@@ -12,7 +12,7 @@ const PROFILE_INFO_SCHEMA = Yup.object().shape({
     .required('სავალდებულოა')
     .matches(geoAlphabetRegex, 'მხოლოდ ქართული სიმბოლოები')
     .min(2, 'მინიმუმ 2 ასო,ქართული ასოები'),
-  image: Yup.mixed().required(''),
+  // image: Yup.mixed().required(''),
   phone: Yup.string()
     .matches(phoneRegex, 'უნდა აკმაყოფილებდეს ქართული მობილურის ნომრის ფორმატს')
     .required('სავალდებულოა'),

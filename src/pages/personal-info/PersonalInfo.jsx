@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Formik, Form } from 'formik';
+import React, { useState, useRef } from 'react';
+import { Formik, Form, useFormikContext } from 'formik';
 import { Box, Button, Grid } from '@mui/material';
 
 import { PROFILE_INFO_SCHEMA } from './schema/profile-info.schema';
@@ -13,7 +13,6 @@ import StepTwo from '../../components/StepTwo';
 import FormikPersist from '../FormikPersistor';
 
 const INITIAL_VALUES = {
-  boobs: '',
   personalInfo: {
     name: '',
     surname: '',
@@ -22,36 +21,36 @@ const INITIAL_VALUES = {
     aboutUs: '',
     email: '',
   },
-  eduction: {
-    position: '',
-    employer: '',
-    startDate: null,
-    endDate: null,
-  },
+
+  education: [
+    {
+      position: '',
+      employer: '',
+      startDate: null,
+      endDate: null,
+      description: '',
+    },
+  ],
 };
-export const fieldStyle =
-  'border-solid border-2 rounded-sm border-black h-16 p-4   ';
 
 const PersonalInfoForm = () => {
+  // const props=useFormikContext()
   return (
-    <Grid container>
-      <Box px="150px">
-        <FormHeader headerText={'ჩვენს შესახებ'} pageNumber={1} />
-        <FormikStepper enableReinitialize>
-          <StepOne
-            validationSchema={PROFILE_INFO_SCHEMA}
-            // initialValues={INITIAL_VALUES.personalInfo}
-          />
-          <StepTwo
-            validationSchema={STEP_TWO_SCHEMA}
+    <Box pl="150px">
+      <FormikStepper enableReinitialize>
+        <StepOne
+          validationSchema={PROFILE_INFO_SCHEMA}
+          // initialValues={INITIAL_VALUES.personalInfo}
+        />
+        <StepTwo
+          validationSchema={STEP_TWO_SCHEMA}
 
-            // initialValues={INITIAL_VALUES.eduction}
-          />
-        </FormikStepper>
-      </Box>
+          // initialValues={INITIAL_VALUES.eduction}
+        />
+      </FormikStepper>
 
       {/* <Resume  /> */}
-    </Grid>
+    </Box>
   );
 };
 export default PersonalInfoForm;
@@ -78,13 +77,14 @@ export function FormikStepper({ children, ...props }) {
       initialValues={INITIAL_VALUES}
       onSubmit={handleSubmit}
     >
-      {(formik) => (
+      {(formik, values) => (
         <Form className="flex justify-center flex-col">
-          <FormikPersist name="FormName" /> // this line headerText
+          {JSON.stringify(formik.values)}
+          <FormikPersist name="FormName" />
           {currrentChild}
           <Box
             display="flex"
-            justifyContent="flex-end"
+            justifyContent="flex-start"
             sx={{ marginTop: '20px' }}
           >
             <Button variant="contained" type="submit">
