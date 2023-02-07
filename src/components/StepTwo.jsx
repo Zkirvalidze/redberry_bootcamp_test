@@ -5,6 +5,7 @@ import { Stack, Box, Grid, Button } from '@mui/material';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { FieldArray, Field, ErrorMessage } from 'formik';
 import { alpha } from '@material-ui/core/styles';
+import Textarea from '@mui/joy/Textarea';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
@@ -16,26 +17,24 @@ import Resume from './Resume';
 const StepTwo = () => {
   const handleClick = () => {};
   const props = useFormikContext();
-  console.log(props.values);
+
   return (
     <Grid container spacing={10}>
       <Grid item xs={7}>
         <FormHeader headerText={'გამოცდილება'} pageNumber={2} />
-      
-     
 
-        <FieldArray name="education">
+        <FieldArray name="educations">
           {({ insert, remove, push }) => (
             <div>
-              {props.values.education.length > 0 &&
-                props.values.education.map((edu, index) => (
+              {props.values.educations.length > 0 &&
+                props.values.educations.map((edu, index) => (
                   //
 
                   <div className="row" key={index}>
                     <Box my="40px">
                       <InputField
                         label="პოზიცია"
-                        name={`education.${index}.position`}
+                        name={`educations.${index}.position`}
                         placeholder="დეველოპერი, დიზაინერი, ა.შ."
                       />
                     </Box>
@@ -43,7 +42,7 @@ const StepTwo = () => {
                     <Box my="40px">
                       <InputField
                         label="დამსაქამებელი"
-                        name={`education.${index}.employer`}
+                        name={`educations.${index}.employer`}
                         placeholder="დამსაქამებელი"
                       />
                     </Box>
@@ -55,10 +54,10 @@ const StepTwo = () => {
                             id="startDate"
                             inputVariant="outlined"
                             placeholder="MM/dd/yyyy"
-                            value={props.values.education[index].startDate}
+                            value={props.values.educations[index].startDate}
                             onChange={(value) =>
                               props.setFieldValue(
-                                `education.${index}.startDate`,
+                                `educations.${index}.startDate`,
                                 value
                               )
                             }
@@ -80,10 +79,10 @@ const StepTwo = () => {
                             id="endDate"
                             inputVariant="outlined"
                             placeholder="MM/dd/yyyy"
-                            value={props.values.education[index].endDate}
+                            value={props.values.educations[index].endDate}
                             onChange={(value) =>
                               props.setFieldValue(
-                                `education.${index}.endDate`,
+                                `educations.${index}.endDate`,
                                 value
                               )
                             }
@@ -94,6 +93,28 @@ const StepTwo = () => {
                         </MuiPickersUtilsProvider>
                       </Box>
                     </Stack>
+                    <Box>
+                      {/* <InputField
+                        component="textarea"
+                        rows="4"
+                        label="აღწერა"
+                        name={`educations.${index}.description`}
+                        placeholder="ზოგი ინფო ჩვენს შესახებ"
+                      /> */}
+                      <label htmlFor={`educations.${index}.description`}>
+                        აღწერა
+                      </label>
+                      <Field
+                        className="w-full border-2 border-stone-300"
+                        component="textarea"
+                        placeholder="ზოგი ინფო ჩვენს შესახებ"
+                        label="აღწერა"
+                        name={`educations.${index}.description`}
+                        rows="4"
+                      ></Field>
+                      <ErrorMessage name={`educations.${index}.description`} className='text-red-400'  />
+                    </Box>
+
                     <div className="col">
                       <button
                         type="button"
@@ -103,6 +124,7 @@ const StepTwo = () => {
                         X
                       </button>
                     </div>
+                    <Box className="border-b-2 border-black  " my={10} />
                   </div>
                 ))}
               <button
@@ -127,7 +149,7 @@ const StepTwo = () => {
           მეტი გამოცდილების დამატება{' '}
         </Button>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={5}>
         <Resume props={props} />
       </Grid>
     </Grid>

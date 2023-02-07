@@ -2,11 +2,9 @@ import React, { useState, useRef } from 'react';
 import { Formik, Form, useFormikContext } from 'formik';
 import { Box, Button, Grid } from '@mui/material';
 
-import { PROFILE_INFO_SCHEMA } from './schema/profile-info.schema';
+import { VALIDATION_SCHEMA } from './schema/profile-info.schema';
 import { STEP_TWO_SCHEMA } from './schema/StepTwo.schema';
 import BaseFileUploadSingle from '../../components/FIleUploadSingle';
-import Resume from '../../components/Resume';
-import FormHeader from '../../components/FormHeader';
 
 import StepOne from '../../components/StepOne';
 import StepTwo from '../../components/StepTwo';
@@ -22,7 +20,7 @@ const INITIAL_VALUES = {
     email: '',
   },
 
-  education: [
+  educations: [
     {
       position: '',
       employer: '',
@@ -34,22 +32,12 @@ const INITIAL_VALUES = {
 };
 
 const PersonalInfoForm = () => {
-  // const props=useFormikContext()
   return (
     <Box pl="150px">
       <FormikStepper enableReinitialize>
-        <StepOne
-          validationSchema={PROFILE_INFO_SCHEMA}
-          // initialValues={INITIAL_VALUES.personalInfo}
-        />
-        <StepTwo
-          validationSchema={STEP_TWO_SCHEMA}
-
-          // initialValues={INITIAL_VALUES.eduction}
-        />
+        <StepOne validationSchema={VALIDATION_SCHEMA} />
+        <StepTwo validationSchema={STEP_TWO_SCHEMA} />
       </FormikStepper>
-
-      {/* <Resume  /> */}
     </Box>
   );
 };
@@ -77,22 +65,15 @@ export function FormikStepper({ children, ...props }) {
       initialValues={INITIAL_VALUES}
       onSubmit={handleSubmit}
     >
-      {(formik, values) => (
-        <Form className="flex justify-center flex-col">
-          {JSON.stringify(formik.values)}
-          <FormikPersist name="FormName" />
-          {currrentChild}
-          <Box
-            display="flex"
-            justifyContent="flex-start"
-            sx={{ marginTop: '20px' }}
-          >
-            <Button variant="contained" type="submit">
-              {isLastStep() ? 'submit' : 'შემდეგი'}
-            </Button>
-          </Box>
-        </Form>
-      )}
+      <Form className="flex justify-center flex-col">
+        <FormikPersist name="FormName" />
+        {currrentChild}
+        <Box display="flex" justifyContent="flex-start" mt="20px">
+          <Button variant="contained" type="submit">
+            {isLastStep() ? 'submit' : 'შემდეგი'}
+          </Button>
+        </Box>
+      </Form>
     </Formik>
   );
 }

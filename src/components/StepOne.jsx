@@ -21,14 +21,14 @@ const StepOne = () => {
           <Box>
             <InputField
               label="სახელი"
-              name="name"
+              name="personalInfo.name"
               placeholder="ანზორ"
             />
           </Box>
           <Box>
             <InputField
               label="გვარი"
-              name="surname"
+              name="personalInfo.surname"
               placeholder="მუმლაძე"
             />
           </Box>
@@ -39,14 +39,14 @@ const StepOne = () => {
         <Box mb={4}>
           <InputField
             label="ჩვენს შესახებ"
-            name="aboutUs"
+            name="personalInfo.aboutUs"
             placeholder="ზოგი ინფო ჩვენს შესახებ"
           />
         </Box>
         <Box mb={4}>
           <InputField
             label="ელ.ფოსტა"
-            name="email"
+            name="personalInfo.email"
             placeholder="anzor666@redberry.ge"
           />
         </Box>
@@ -54,7 +54,7 @@ const StepOne = () => {
           <InputField
             control="input"
             label="მობილურის ნომერი "
-            name="phone"
+            name="personalInfo.phone"
             placeholder="+995 599 77 90 56"
           />
         </Box>

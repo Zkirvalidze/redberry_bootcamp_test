@@ -2,38 +2,28 @@ import React from 'react';
 import { useFormikContext } from 'formik';
 import { Stack, Box, Typography, Grid } from '@mui/material';
 const Resume = ({ props }) => {
-  const {
-    name,
-    surname,
-    phone,
-    aboutUs,
-    email,
-    position,
-    employer,
-    startDate,
-    endDate,
-  } = props.values;
-
   const image = localStorage.getItem('image');
+  const { name, surname, email, phone, aboutUs } = props.values.personalInfo;
+  const educations = props.values.educations;
+  console.log(educations);
   return (
     <>
       <Stack direction="row" gap={10} mt={6}>
-        <Grid container>
-          <Grid item xs={7}>
-            <Typography variant="h3" color="red" fontWeight="600">
-              {name} {surname}
-            </Typography>
+        <Box>
+          <Typography variant="h3" color="red" fontWeight="600">
+            {name} {surname}
+          </Typography>
 
-            {email && <p className="mt-6 text-xl">@ {email}</p>}
-            {phone && <p className="mt-6 text-xl">& {phone}</p>}
-            {aboutUs && (
-              <Typography variant="h5" color="red" fontWeight="600" mt={4}>
-                ჩემს შესახებ
-              </Typography>
-            )}
-            <p className="mt-6 text-xl min-w-[400px] ">{aboutUs}</p>
-          </Grid>
-        </Grid>
+          {email && <p className="mt-6 text-xl">@ {email}</p>}
+          {phone && <p className="mt-6 text-xl">& {phone}</p>}
+          {aboutUs && (
+            <Typography variant="h5" color="red" fontWeight="600" mt={4}>
+              ჩემს შესახებ
+            </Typography>
+          )}
+          <p className="mt-6 text-xl min-w-[400px] ">{aboutUs}</p>
+        </Box>
+
         <Box>
           {image && (
             <img
@@ -44,19 +34,30 @@ const Resume = ({ props }) => {
           )}
         </Box>
       </Stack>
-      {position && (
-        <Typography variant="h5" color="red" fontWeight="600" mt={4}>
-          გამოცდილება
-        </Typography>
-      )}
-      <p className="mt-6 text-xl min-w-[400px] ">{position}</p>
-      {startDate && endDate && (
-        <p className="mt-6 text-xl min-w-[400px] ">
-          {startDate}
-          {endDate}
-        </p>
-      )}
-    </>
+
+      <Typography variant="h5" color="red" fontWeight="600" mt={4}>
+        გამოცდილება
+      </Typography>
+      {educations.map((edu) => {
+        return (
+          <>
+            <p className="mt-6 text-xl min-w-[400px] ">{edu.position}</p>
+
+            <p className="mt-6 text-xl min-w-[400px] ">
+              {JSON.stringify(edu.startDate).substring(1, 11)} --
+              {JSON.stringify(edu.endDate).substring(1, 11)}
+            </p>
+
+            <Typography
+              className="mt-6 text-xl min-w-[400px]  "
+              sx={{ wordBreak: 'break-word' }}
+            >
+              {edu.description}
+            </Typography>
+          </>
+        );
+      })}
+      </>
   );
 };
 
