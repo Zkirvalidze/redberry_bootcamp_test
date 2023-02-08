@@ -1,15 +1,17 @@
-import { Stack, Box, Grid } from '@mui/material';
+import { Stack, Box, Grid, Button } from '@mui/material';
 import React from 'react';
-import FormikControl from './FormikControl';
-import Resume from './Resume';
-import InputField from './InputField';
+import FormikControl from '../../../components/FormikControl';
+import Resume from '../../../components/Resume';
+import InputField from '../../../components/InputField';
 import { useFormikContext } from 'formik';
-import FormHeader from './FormHeader';
-const StepOne = () => {
+import FormHeader from '../../../components/FormHeader';
+import { FormikStepper } from '../MultiStepForm';
+
+const ProfileInfoStep = () => {
   const props = useFormikContext();
-  console.log(props.values);
+
   return (
-    <Grid container spacing={10}>
+    <Grid container spacing={10} sx={{ width: '1920px', height: '1080px' }}>
       <Grid item xs={7}>
         <FormHeader headerText={'ჩვენს შესახებ'} pageNumber={1} />
         <Stack
@@ -58,6 +60,11 @@ const StepOne = () => {
             placeholder="+995 599 77 90 56"
           />
         </Box>
+        <Box mt="20px" display="flex" justifyContent="flex-end">
+          <Button variant="contained" type="submit">
+            {FormikStepper.isLastStep ? 'submit' : 'შემდეგი'}
+          </Button>
+        </Box>
       </Grid>
       <Grid item xs={5}>
         <Resume props={props} />
@@ -65,4 +72,4 @@ const StepOne = () => {
     </Grid>
   );
 };
-export default StepOne;
+export default ProfileInfoStep;

@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 
-const STEP_TWO_SCHEMA = Yup.object().shape({
-  educations: Yup.array().of(
+const EXPERIANCE_SCHEMA = Yup.object().shape({
+  experiance: Yup.array().of(
     Yup.object().shape({
       position: Yup.string().required('').min(2, 'მინიმუმ 2 სიმბოლო'),
       employer: Yup.string().required('').min(2),
@@ -12,4 +12,4 @@ const STEP_TWO_SCHEMA = Yup.object().shape({
   ),
 });
 
-export { STEP_TWO_SCHEMA };
+export { EXPERIANCE_SCHEMA };

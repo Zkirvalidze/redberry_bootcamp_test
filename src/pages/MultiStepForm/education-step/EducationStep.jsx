@@ -1,49 +1,48 @@
 import React from 'react';
-
-import InputField from './InputField';
+import InputField from '../../../components/InputField';
 import { Stack, Box, Grid, Button } from '@mui/material';
-import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { FieldArray, Field, ErrorMessage } from 'formik';
-import { alpha } from '@material-ui/core/styles';
-import Textarea from '@mui/joy/Textarea';
+import { FormikStepper } from '../MultiStepForm';
+
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useFormikContext } from 'formik';
-import FormHeader from './FormHeader';
-import Resume from './Resume';
-const StepTwo = () => {
+import FormHeader from '../../../components/FormHeader';
+import Resume from '../../../components/Resume';
+
+const EducationStep = () => {
   const handleClick = () => {};
   const props = useFormikContext();
 
   return (
     <Grid container spacing={10}>
       <Grid item xs={7}>
-        <FormHeader headerText={'გამოცდილება'} pageNumber={2} />
+        <FormHeader headerText={'განათლება'} pageNumber={3} />
 
-        <FieldArray name="educations">
+        <FieldArray name="education">
           {({ insert, remove, push }) => (
             <div>
-              {props.values.educations.length > 0 &&
-                props.values.educations.map((edu, index) => (
+              {props.values.education.length > 0 &&
+                props.values.education.map((edu, index) => (
                   //
 
                   <div className="row" key={index}>
                     <Box my="40px">
                       <InputField
-                        label="პოზიცია"
-                        name={`educations.${index}.position`}
-                        placeholder="დეველოპერი, დიზაინერი, ა.შ."
+                        label="განათლება"
+                        name={`education.${index}.university`}
+                        placeholder="უნივერსიტეტი"
                       />
                     </Box>
 
                     <Box my="40px">
                       <InputField
-                        label="დამსაქამებელი"
-                        name={`educations.${index}.employer`}
-                        placeholder="დამსაქამებელი"
+                        label="ხარისხი"
+                        name={`education.${index}.degree`}
+                        placeholder="ხარისხი"
                       />
                     </Box>
                     <Stack direction="row" my="40px">
@@ -54,10 +53,10 @@ const StepTwo = () => {
                             id="startDate"
                             inputVariant="outlined"
                             placeholder="MM/dd/yyyy"
-                            value={props.values.educations[index].startDate}
+                            value={props.values.education[index].startDate}
                             onChange={(value) =>
                               props.setFieldValue(
-                                `educations.${index}.startDate`,
+                                `education.${index}.startDate`,
                                 value
                               )
                             }
@@ -79,10 +78,10 @@ const StepTwo = () => {
                             id="endDate"
                             inputVariant="outlined"
                             placeholder="MM/dd/yyyy"
-                            value={props.values.educations[index].endDate}
+                            value={props.values.education[index].endDate}
                             onChange={(value) =>
                               props.setFieldValue(
-                                `educations.${index}.endDate`,
+                                `education.${index}.endDate`,
                                 value
                               )
                             }
@@ -98,10 +97,10 @@ const StepTwo = () => {
                         component="textarea"
                         rows="4"
                         label="აღწერა"
-                        name={`educations.${index}.description`}
+                        name={`education.${index}.description`}
                         placeholder="ზოგი ინფო ჩვენს შესახებ"
                       /> */}
-                      <label htmlFor={`educations.${index}.description`}>
+                      <label htmlFor={`education.${index}.description`}>
                         აღწერა
                       </label>
                       <Field
@@ -109,10 +108,13 @@ const StepTwo = () => {
                         component="textarea"
                         placeholder="ზოგი ინფო ჩვენს შესახებ"
                         label="აღწერა"
-                        name={`educations.${index}.description`}
+                        name={`education.${index}.description`}
                         rows="4"
                       ></Field>
-                      <ErrorMessage name={`educations.${index}.description`} className='text-red-400'  />
+                      <ErrorMessage
+                        name={`education.${index}.description`}
+                        className="text-red-400"
+                      />
                     </Box>
 
                     <div className="col">
@@ -132,10 +134,11 @@ const StepTwo = () => {
                 className="secondary"
                 onClick={() =>
                   push({
-                    position: '',
-                    employer: '',
+                    university: '',
+                    degree: '',
                     startDate: null,
                     endDate: null,
+                    description: '',
                   })
                 }
               >
@@ -145,9 +148,11 @@ const StepTwo = () => {
           )}
         </FieldArray>
 
-        <Button variant="contained" onClick={handleClick}>
-          მეტი გამოცდილების დამატება{' '}
-        </Button>
+        <Box mt="20px" display="flex" justifyContent="flex-end">
+          <Button variant="contained" type="submit">
+            {FormikStepper.isLastStep ? 'submit' : 'შემდეგი'}
+          </Button>
+        </Box>
       </Grid>
       <Grid item xs={5}>
         <Resume props={props} />
@@ -156,4 +161,4 @@ const StepTwo = () => {
   );
 };
 
-export default StepTwo;
+export default EducationStep;

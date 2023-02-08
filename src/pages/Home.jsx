@@ -1,23 +1,26 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { initPage_bg, logo1, logo2 } from '../assets';
+import {Box} from '@mui/material'
+import { logo1, logo2 } from '../assets';
 const Home = () => {
   const navigate = useNavigate();
   const HOME_BUTTON_TEXT = ' რეზიუმეს დამატება';
   return (
-    <div
-      className={`bg-[url('src/assets/initPage_bg.jpeg')] w-[1920px] h-[1080px] px-[70px]  `}
+    <Box
+      px="70px"
+      sx={{ width: '1920px', height: '1080px' }}
+      className={`bg-[url('src/assets/initPage_bg.jpeg')]   `}
     >
-      <div>
-        <img src={logo1} alt="redberry logo" className="py-[38px] header " />
-        <div className="border-b-4 border-black" />
-      </div>
-      <div className=" flex relative items-center justify-center h-full  body">
+      <Box className="absolute w-full pr-[150px]">
+        <img src={logo1} alt="redberry logo" className=" py-[38px] header " />
+        <Box className="border-b-4 border-black " />
+      </Box>
+      <Box className=" flex relative items-center justify-center h-full  body">
         <button
           className=" bg-black text-white border-red-400 border-4 py-[18px]
          px-[60px] w-[473px] "
           onClick={() => {
-            navigate('./info');
+            navigate('./form');
           }}
         >
           {HOME_BUTTON_TEXT}
@@ -27,8 +30,8 @@ const Home = () => {
           alt="logo"
           className="absolute top-[473px] left-[1014px]"
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

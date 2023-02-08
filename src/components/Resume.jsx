@@ -4,8 +4,8 @@ import { Stack, Box, Typography, Grid } from '@mui/material';
 const Resume = ({ props }) => {
   const image = localStorage.getItem('image');
   const { name, surname, email, phone, aboutUs } = props.values.personalInfo;
-  const educations = props.values.educations;
-  console.log(educations);
+  const experiance = props.values.experiance;
+  console.log(experiance);
   return (
     <>
       <Stack direction="row" gap={10} mt={6}>
@@ -38,21 +38,21 @@ const Resume = ({ props }) => {
       <Typography variant="h5" color="red" fontWeight="600" mt={4}>
         გამოცდილება
       </Typography>
-      {educations.map((edu) => {
+      {experiance?.map((exp) => {
         return (
           <>
-            <p className="mt-6 text-xl min-w-[400px] ">{edu.position}</p>
+            <p className="mt-6 text-xl min-w-[400px] ">{exp.position}</p>
 
             <p className="mt-6 text-xl min-w-[400px] ">
-              {JSON.stringify(edu.startDate).substring(1, 11)} --
-              {JSON.stringify(edu.endDate).substring(1, 11)}
+              {JSON.stringify(exp.startDate).substring(1, 11)} --
+              {JSON.stringify(exp.endDate).substring(1, 11)}
             </p>
 
             <Typography
               className="mt-6 text-xl min-w-[400px]  "
               sx={{ wordBreak: 'break-word' }}
             >
-              {edu.description}
+              {exp.description}
             </Typography>
           </>
         );

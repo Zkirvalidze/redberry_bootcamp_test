@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 const geoAlphabetRegex = /^([\u10D0-\u10F0]+)$/;
 const phoneRegex = /^(\+?995)?(79\d{7}|5\d{8})$/;
 
-const VALIDATION_SCHEMA =  Yup.object().shape({
+const PROFILE_INFO_SCHEMA =  Yup.object().shape({
   personalInfo: Yup.object().shape({
     name: Yup.string()
       .matches(geoAlphabetRegex, 'მხოლოდ ქართული სიმბოლოები')
@@ -26,4 +26,4 @@ const VALIDATION_SCHEMA =  Yup.object().shape({
   }),
 });
 
-export { VALIDATION_SCHEMA };
+export { PROFILE_INFO_SCHEMA };
