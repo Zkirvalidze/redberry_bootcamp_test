@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
-
+import { Box, Button } from '@mui/material';
 import BaseFileUploadSingle from '../../components/FIleUploadSingle';
 
 import FormikPersist from '../FormikPersistor';
@@ -56,6 +56,11 @@ export function FormikStepper({ children, ...props }) {
       <Form className="pl-[150px]">
         <FormikPersist name="FormName" />
         {currrentChild}
+        <Box mt="20px" display="flex" justifyContent="flex-start">
+          <Button variant="contained" type="submit">
+            {FormikStepper.isLastStep ? 'submit' : 'შემდეგი'}
+          </Button>
+        </Box>
       </Form>
     </Formik>
   );

@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik';
 import { Stack, Box, Typography, Grid } from '@mui/material';
 const Resume = ({ props }) => {
   const image = localStorage.getItem('image');
-  const { name, surname, email, phone, aboutUs } = props.values.personalInfo;
+  const { name, surname, email, phone, aboutUs } = props.values.profileInfo;
   const experiance = props.values.experiance;
   return (
     <>

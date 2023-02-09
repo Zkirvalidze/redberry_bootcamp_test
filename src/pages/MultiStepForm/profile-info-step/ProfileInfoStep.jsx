@@ -5,13 +5,12 @@ import Resume from '../../../components/Resume';
 import InputField from '../../../components/InputField';
 import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
-import { FormikStepper } from '../MultiStepForm';
+
 
 const ProfileInfoStep = () => {
   const props = useFormikContext();
-
   return (
-    <Grid container spacing={10} sx={{ width: '1920px', height: '1080px' }}>
+    <Grid container spacing={10}>
       <Grid item xs={7}>
         <FormHeader headerText={'ჩვენს შესახებ'} pageNumber={1} />
         <Stack
@@ -23,14 +22,14 @@ const ProfileInfoStep = () => {
           <Box>
             <InputField
               label="სახელი"
-              name="personalInfo.name"
+              name="profileInfo.name"
               placeholder="ანზორ"
             />
           </Box>
           <Box>
             <InputField
               label="გვარი"
-              name="personalInfo.surname"
+              name="profileInfo.surname"
               placeholder="მუმლაძე"
             />
           </Box>
@@ -41,14 +40,17 @@ const ProfileInfoStep = () => {
         <Box mb={4}>
           <InputField
             label="ჩვენს შესახებ"
-            name="personalInfo.aboutUs"
+            name="profileInfo.aboutUs"
             placeholder="ზოგი ინფო ჩვენს შესახებ"
+            multiline
+            rows={4}
+            variant="outlined"
           />
         </Box>
         <Box mb={4}>
           <InputField
             label="ელ.ფოსტა"
-            name="personalInfo.email"
+            name="profileInfo.email"
             placeholder="anzor666@redberry.ge"
           />
         </Box>
@@ -56,14 +58,9 @@ const ProfileInfoStep = () => {
           <InputField
             control="input"
             label="მობილურის ნომერი "
-            name="personalInfo.phone"
+            name="profileInfo.phone"
             placeholder="+995 599 77 90 56"
           />
-        </Box>
-        <Box mt="20px" display="flex" justifyContent="flex-end">
-          <Button variant="contained" type="submit">
-            {FormikStepper.isLastStep ? 'submit' : 'შემდეგი'}
-          </Button>
         </Box>
       </Grid>
       <Grid item xs={5}>

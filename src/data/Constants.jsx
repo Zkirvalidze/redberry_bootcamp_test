@@ -1,5 +1,5 @@
 export const INITIAL_VALUES = {
-  personalInfo: {
+  profileInfo: {
     name: '',
     surname: '',
     image: '',
