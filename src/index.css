@@ -9,7 +9,27 @@ label {
   margin-right: 4px;
 }
 
-
+.pageContainer {
+  background-image: url('src/assets/initPage_bg.jpeg');
+  height: 100vh;
+}
+.homeBtn {
+  background-color: black;
+  border-radius: 8px;
+  color: aliceblue;
+  padding-top: 18px;
+  padding-bottom: 18px;
+  padding-left: 60px;
+  padding-right: 60px;
+  width: 464px;
+}
+.img1{
+  position: absolute;
+width: 299px;
+height: 299px;
+left: 1076px;
+top: 473px;
+}
 /* 
 #file-upload {
    border: 1px solid #ccc;

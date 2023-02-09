@@ -58,8 +58,17 @@ const EDUCATION_SCHEMA = Yup.object().shape(
 const EDUCATIONS_SCHEMA = Yup.object().shape({
   educations: Yup.array()
     .of(EDUCATION_SCHEMA)
-    .min(1, 'სულ მცირე ერთი განათლება')
-    .required('სავალდებულო'),
+    .required('სავალდებულო')
+    .test(function (educations) {
+      const isAtLeastOneEduFilled = educations.some((edu) =>
+        Object.values(edu).every((val) => !!val)
+      );
+      console.log(isAtLeastOneEduFilled);
+      if (!isAtLeastOneEduFilled) {
+        return this.createError({ message: 'დაამატეთ სულ მცირე 1 განათლება!' });
+      }
+      return true;
+    }),
 });
 
 export { EDUCATIONS_SCHEMA };

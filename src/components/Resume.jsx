@@ -5,7 +5,6 @@ const Resume = ({ props }) => {
   const image = localStorage.getItem('image');
   const { name, surname, email, phone, aboutUs } = props.values.personalInfo;
   const experiance = props.values.experiance;
-  console.log(experiance);
   return (
     <>
       <Stack direction="row" gap={10} mt={6}>
@@ -57,7 +56,7 @@ const Resume = ({ props }) => {
           </>
         );
       })}
-      </>
+    </>
   );
 };
 

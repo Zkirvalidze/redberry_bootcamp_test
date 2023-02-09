@@ -17,7 +17,7 @@ export const INITIAL_VALUES = {
       description: '',
     },
   ],
-  education: [
+  educations: [
     {
       university: '',
       degree: '',
@@ -27,3 +27,4 @@ export const INITIAL_VALUES = {
     },
   ],
 };
+export const HOME_BUTTON_TEXT = ' რეზიუმეს დამატება';
