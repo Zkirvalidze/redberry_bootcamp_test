@@ -8,7 +8,7 @@ export const INITIAL_VALUES = {
     email: '',
   },
 
-  experiance: [
+  experiences: [
     {
       position: '',
       employer: '',

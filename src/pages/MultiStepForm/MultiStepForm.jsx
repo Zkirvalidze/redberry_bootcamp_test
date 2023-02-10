@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { Box, Button } from '@mui/material';
 import BaseFileUploadSingle from '../../components/FIleUploadSingle';
-
-import FormikPersist from '../FormikPersistor';
-
 import { INITIAL_VALUES } from '../../data/Constants';
-
 /* Steps */
 import ProfileInfoStep from './profile-info-step/ProfileInfoStep';
 import ExperienceStep from './experience-step/ExperienceStep';
 import EducationStep from './education-step/EducationStep';
+import { Persist } from 'formik-persist';
 
 /* Schemas */
 import { PROFILE_INFO_SCHEMA } from './profile-info-step/schema/profile-info.schema';
@@ -29,39 +26,65 @@ const MultiStepForm = () => {
 export default MultiStepForm;
 
 export function FormikStepper({ children, ...props }) {
-  const [step, setStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const childrenArray = React.Children.toArray(children);
-  const currrentChild = childrenArray[step];
+  const currrentChild = childrenArray[activeStep];
 
-  const isLastStep = () => {
-    return step === childrenArray.length - 1;
-  };
+  const isLastStep = activeStep === childrenArray.length - 1;
 
-  const handleSubmit = () => {
-    if (isLastStep()) {
-      console.log('submit');
+  function _submitForm(values, actions) {
+    alert(JSON.stringify(values, null, 2));
+    actions.setSubmitting(false);
+
+    setActiveStep(activeStep + 1);
+  }
+
+  function _handleSubmit(values, actions) {
+    if (isLastStep) {
+      _submitForm(values, actions);
     } else {
-      setStep((s) => s + 1);
+      setActiveStep((prev) => prev + 1);
+      actions.setTouched({});
+      actions.setSubmitting(false);
     }
-  };
+  }
+
+  function _handleBack() {
+    setActiveStep((prev) => prev - 1);
+  }
 
   return (
     <Formik
       {...props}
       validationSchema={currrentChild.props.validationSchema}
       initialValues={INITIAL_VALUES}
-      onSubmit={handleSubmit}
+      onSubmit={_handleSubmit}
     >
-      <Form className="pl-[150px]">
-        <FormikPersist name="FormName" />
-        {currrentChild}
-        <Box mt="20px" display="flex" justifyContent="flex-start">
-          <Button variant="contained" type="submit">
-            {FormikStepper.isLastStep ? 'submit' : 'შემდეგი'}
-          </Button>
-        </Box>
-      </Form>
+      {({ isSubmitting }) => (
+        <Form className="pl-[150px]">
+          {/* <FormikPersist name="FormName" /> */}
+
+          {currrentChild}
+          <div className="flex justify-between max-w-[56%]">
+            <div>
+              {activeStep !== 0 && <Button onClick={_handleBack}>Back</Button>}
+            </div>
+            <div>
+              <Button
+                disabled={isSubmitting}
+                type="submit"
+                variant="contained"
+                color="primary"
+              >
+                {isLastStep ? 'submit' : 'შემდეგი'}
+              </Button>
+            </div>
+          </div>
+
+          <Persist name="form" />
+        </Form>
+      )}
     </Formik>
   );
 }
