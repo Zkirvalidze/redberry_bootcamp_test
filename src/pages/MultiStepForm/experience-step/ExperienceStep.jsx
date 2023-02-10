@@ -14,7 +14,7 @@ const ExperienceStep = () => {
       <Grid item xs={7}>
         <FormHeader headerText={'გამოცდილება'} pageNumber={2} />
         <FieldArray name="experiences">
-          {({ push }) => (
+          {({ remove, push }) => (
             <>
               {props.values.experiences.map((edu, index) => (
                 //
@@ -42,17 +42,18 @@ const ExperienceStep = () => {
                     my="40px"
                   >
                     <DatePickerField
-                      name={`experiences.${index}.startDate`}
-                      // label='start date'
-
+                      label="დაწყების თარიღი"
+                      name={`experiences.${index}.start_date`}
                       inputVariant="outlined"
                       placeholder="MM/dd/yyyy"
                       minDate={new Date()}
                       maxDate={new Date('2050/12/31')}
                       fullWidth
                     />
+
                     <DatePickerField
-                      name={`experiences.${index}.endDate`}
+                      label="დამთავრების თარიღი"
+                      name={`experiences.${index}.due_date`}
                       inputVariant="outlined"
                       placeholder="MM/dd/yyyy"
                       minDate={new Date()}
@@ -88,13 +89,13 @@ const ExperienceStep = () => {
                   push({
                     position: '',
                     employer: '',
-                    startDate: null,
-                    endDate: null,
+                    srart_date: null,
+                    due_date: null,
                     description: '',
                   })
                 }
               >
-                Add education
+                Add job
               </Button>
             </>
           )}

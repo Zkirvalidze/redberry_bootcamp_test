@@ -11,7 +11,7 @@ label {
 
 .pageContainer {
   background: url('src/assets/initPage_bg.jpeg');
-    background-repeat: round;
+  background-repeat: round;
 
   height: 100vh;
 }
@@ -25,10 +25,10 @@ label {
   padding-right: 60px;
   width: 464px;
 }
-.img1{
+.img1 {
   position: absolute;
-width: 299px;
-height: 299px;
-left: 1076px;
-top: 473px;
+  width: 299px;
+  height: 299px;
+  left: 1076px;
+  top: 473px;
 }

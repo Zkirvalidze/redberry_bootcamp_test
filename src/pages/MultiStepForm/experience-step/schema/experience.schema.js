@@ -3,14 +3,14 @@ import * as Yup from 'yup';
 const EXPERIENCE_SCHEMA = Yup.object().shape(
   {
     position: Yup.string().when(
-      ['employer', 'startDate', 'endDate', 'description'],
+      ['employer', 'start_date', 'due_date', 'description'],
       {
         is: (a, b, c, d) => a || b || c || d,
         then: Yup.string().required('სავალდებულო').min(2, 'მინიმუმ 2 სიმბოლო'),
       }
     ),
     employer: Yup.string().when(
-      ['position', 'startDate', 'endDate', 'description'],
+      ['position', 'start_date', 'due_date', 'description'],
       {
         is: (a, b, c, d) => a || b || c || d,
         then: Yup.string()
@@ -19,21 +19,21 @@ const EXPERIENCE_SCHEMA = Yup.object().shape(
           .min(2),
       }
     ),
-    startDate: Yup.date()
+    start_date: Yup.date()
       .nullable()
-      .when(['position', 'employer', 'endDate', 'description'], {
+      .when(['position', 'employer', 'due_date', 'description'], {
         is: (a, b, c, d) => a || b || c || d,
         then: Yup.date().required('სავალდებულო').nullable(),
       }),
 
-    endDate: Yup.date()
+    due_date: Yup.date()
       .nullable()
-      .when(['position', 'employer', 'startDate', 'description'], {
+      .when(['position', 'employer', 'start_date', 'description'], {
         is: (a, b, c, d) => a || b || c || d,
         then: Yup.date().required('სავალდებულო').nullable(),
       }),
     description: Yup.string().when(
-      ['position', 'employer', 'startDate', 'endDate'],
+      ['position', 'employer', 'start_date', 'due_date'],
       {
         is: (a, b, c, d) => a || b || c || d,
         then: Yup.string().required('სავალდებულო'),
@@ -42,15 +42,15 @@ const EXPERIENCE_SCHEMA = Yup.object().shape(
   },
   [
     ['position', 'employer'],
-    ['position', 'startDate'],
-    ['position', 'endDate'],
+    ['position', 'start_date'],
+    ['position', 'due_date'],
     ['position', 'description'],
-    ['employer', 'startDate'],
-    ['employer', 'endDate'],
+    ['employer', 'start_date'],
+    ['employer', 'due_date'],
     ['employer', 'description'],
-    ['startDate', 'endDate'],
-    ['startDate', 'description'],
-    ['endDate', 'description'],
+    ['start_date', 'due_date'],
+    ['start_date', 'description'],
+    ['due_date', 'description'],
   ]
 );
 

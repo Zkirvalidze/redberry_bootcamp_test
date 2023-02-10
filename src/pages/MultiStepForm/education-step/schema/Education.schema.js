@@ -2,56 +2,34 @@ import * as Yup from 'yup';
 
 const EDUCATION_SCHEMA = Yup.object().shape(
   {
-    university: Yup.string().when(
-      ['degree', 'startDate', 'endDate', 'description'],
-      {
-        is: (a, b, c, d) => a || b || c || d,
-        then: Yup.string().required('სავალდებულო').min(2, 'მინიმუმ 2 სიმბოლო'),
-      }
-    ),
-    degree: Yup.string().when(
-      ['university', 'startDate', 'endDate', 'description'],
-      {
-        is: (a, b, c, d) => a || b || c || d,
-        then: Yup.string()
-          .required('სავალდებულო')
+    institute: Yup.string().when(['degree_id', , 'due_date', 'description'], {
+      is: (a, b, c) => a || b || c,
+      then: Yup.string().required('სავალდებულო').min(2, 'მინიმუმ 2 სიმბოლო'),
+    }),
+    degree_id: Yup.string().when(['institute', 'due_date', 'description'], {
+      is: (a, b, c) => a || b || c,
+      then: Yup.string().required('სავალდებულო'),
+    }),
 
-          .min(2),
-      }
-    ),
-    startDate: Yup.date()
+    due_date: Yup.date()
       .nullable()
-      .when(['university', 'degree', 'endDate', 'description'], {
-        is: (a, b, c, d) => a || b || c || d,
+      .when(['institute', 'degree_id', 'description'], {
+        is: (a, b, c) => a || b || c,
         then: Yup.date().required('სავალდებულო').nullable(),
       }),
 
-    endDate: Yup.date()
-      .nullable()
-      .when(['university', 'degree', 'startDate', 'description'], {
-        is: (a, b, c, d) => a || b || c || d,
-        then: Yup.date().required('სავალდებულო').nullable(),
-      }),
-
-    description: Yup.string().when(
-      ['university', 'degree', 'startDate', 'endDate'],
-      {
-        is: (a, b, c, d) => a || b || c || d,
-        then: Yup.string().required('სავალდებულო'),
-      }
-    ),
+    description: Yup.string().when(['institute', 'degree_id', 'due_date'], {
+      is: (a, b, c) => a || b || c,
+      then: Yup.string().required('სავალდებულო'),
+    }),
   },
   [
-    ['university', 'degree'],
-    ['university', 'startDate'],
-    ['university', 'endDate'],
-    ['university', 'description'],
-    ['degree', 'startDate'],
-    ['degree', 'endDate'],
-    ['degree', 'description'],
-    ['startDate', 'endDate'],
-    ['startDate', 'description'],
-    ['endDate', 'description'],
+    ['institute', 'degree_id'],
+    ['institute', 'due_date'],
+    ['institute', 'description'],
+    ['degree_id', 'due_date'],
+    ['degree_id', 'description'],
+    ['due_date', 'description'],
   ]
 );
 

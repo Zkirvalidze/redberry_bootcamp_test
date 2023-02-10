@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import { useState, useEffect, Children } from 'react';
 import { Formik, Form } from 'formik';
-import { Box, Button } from '@mui/material';
-import BaseFileUploadSingle from '../../components/FIleUploadSingle';
+import { Persist } from 'formik-persist';
+import { Button } from '@mui/material';
+// import BaseFileUploadSingle from '../../components/FIleUploadSingle';
 import { INITIAL_VALUES } from '../../data/Constants';
 /* Steps */
 import ProfileInfoStep from './profile-info-step/ProfileInfoStep';
 import ExperienceStep from './experience-step/ExperienceStep';
 import EducationStep from './education-step/EducationStep';
-import { Persist } from 'formik-persist';
 
 /* Schemas */
 import { PROFILE_INFO_SCHEMA } from './profile-info-step/schema/profile-info.schema';
@@ -26,15 +26,35 @@ const MultiStepForm = () => {
 export default MultiStepForm;
 
 export function FormikStepper({ children, ...props }) {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(
+    JSON.parse(localStorage.getItem('activeStep')) || 0
+  );
+  useEffect(() => {
+    localStorage.setItem('activeStep', JSON.stringify(activeStep));
+  }, [activeStep]);
 
-  const childrenArray = React.Children.toArray(children);
+  const childrenArray = Children.toArray(children);
   const currrentChild = childrenArray[activeStep];
 
   const isLastStep = activeStep === childrenArray.length - 1;
 
   function _submitForm(values, actions) {
-    alert(JSON.stringify(values, null, 2));
+    const postData = async (val) => {
+      const postForm = await fetch(
+        'https://resume.redberryinternship.ge/api/cvs',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(val),
+        }
+      );
+      const resp = await response.json();
+      console.log(values);
+    };
+    postData(values);
     actions.setSubmitting(false);
 
     setActiveStep(activeStep + 1);
@@ -42,6 +62,7 @@ export function FormikStepper({ children, ...props }) {
 
   function _handleSubmit(values, actions) {
     if (isLastStep) {
+      console.log('submiting')
       _submitForm(values, actions);
     } else {
       setActiveStep((prev) => prev + 1);
@@ -61,30 +82,21 @@ export function FormikStepper({ children, ...props }) {
       initialValues={INITIAL_VALUES}
       onSubmit={_handleSubmit}
     >
-      {({ isSubmitting }) => (
-        <Form className="pl-[150px]">
-          {/* <FormikPersist name="FormName" /> */}
-
-          {currrentChild}
-          <div className="flex justify-between max-w-[56%]">
-            <div>
-              {activeStep !== 0 && <Button onClick={_handleBack}>Back</Button>}
-            </div>
-            <div>
-              <Button
-                disabled={isSubmitting}
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                {isLastStep ? 'submit' : 'შემდეგი'}
-              </Button>
-            </div>
+      <Form className="pl-[150px]">
+        {currrentChild}
+        <div className="flex justify-between max-w-[56%]">
+          <div>
+            {activeStep !== 0 && <Button onClick={_handleBack}>Back</Button>}
           </div>
+          <div>
+            <Button type="submit" variant="contained" color="primary">
+              {isLastStep ? 'submit' : 'შემდეგი'}
+            </Button>
+          </div>
+        </div>
 
-          <Persist name="form" />
-        </Form>
-      )}
+        <Persist name="form" />
+      </Form>
     </Formik>
   );
 }

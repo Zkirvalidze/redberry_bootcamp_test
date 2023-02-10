@@ -1,28 +1,25 @@
 export const INITIAL_VALUES = {
-  profileInfo: {
-    name: '',
-    surname: '',
-    image: '',
-    phone: '',
-    aboutUs: '',
-    email: '',
-  },
+  name: '',
+  surname: '',
+  image: '',
+  phone_number: '',
+  aboutUs: '',
+  email: '',
 
   experiences: [
     {
       position: '',
       employer: '',
-      startDate: null,
-      endDate: null,
+      start_date: null,
+      due_date: null,
       description: '',
     },
   ],
   educations: [
     {
-      university: '',
-      degree: '',
-      startDate: null,
-      endDate: null,
+      institute: '',
+      degree_id: '',
+      due_date: null,
       description: '',
     },
   ],

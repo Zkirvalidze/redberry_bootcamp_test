@@ -27,7 +27,7 @@ const InputField = ({ label, ...props }) => {
   return (
     <>
       <label
-        htmlFor={props.name}
+        htmlFor={field.name}
         style={meta.touched && meta.error ? { color: 'red' } : {}}
       >
         {label}

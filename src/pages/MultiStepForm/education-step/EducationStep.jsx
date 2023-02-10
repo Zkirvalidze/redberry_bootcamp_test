@@ -1,18 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputField from '../../../components/InputField';
-import { Stack, Box, Grid, Button } from '@mui/material';
-import { FieldArray, Field, ErrorMessage } from 'formik';
+import { Stack, Box, Grid } from '@mui/material';
+import { FieldArray } from 'formik';
 
 import DatePickerField from '../../../components/Datepicker';
 import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
 import Resume from '../../../components/Resume';
+import SelectField from '../../../components/SelectField';
 
 const EducationStep = () => {
   const props = useFormikContext();
-  // useEffect(() => {
-  //   props.validateForm();
-  // }, []);
+  const [degrees, setDegrees] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      const response = await fetch(
+        'https://resume.redberryinternship.ge/api/degrees'
+      );
+      const data = await response.json();
+      setDegrees(data);
+    };
+    getData();
+  }, []);
 
   return (
     <Grid container spacing={10}>
@@ -28,43 +37,30 @@ const EducationStep = () => {
                 <div className="row" key={index}>
                   <Box my="40px">
                     <InputField
-                      label="განათლება"
-                      name={`educations.${index}.university`}
+                      label="უნივერსიტეტი"
+                      name={`educations.${index}.institute`}
                       placeholder="უნივერსიტეტი"
                     />
                   </Box>
+                  <Stack direction="row" justifyContent="space-between" gap={4}>
+                    <SelectField
+                      name={`educations.${index}.degree_id`}
+                      label={'ხარისხი'}
+                      data={degrees}
+                      className="w-[50%]"
+                    />
 
-                  <Box my="40px">
-                    <InputField
-                      label="ხარისხი"
-                      name={`educations.${index}.degree`}
-                      placeholder="ხარისხი"
-                    />
-                  </Box>
-                  <Stack
-                    direction="row"
-                    justifyContent="space-between"
-                    gap={10}
-                    my="40px"
-                  >
-                    <DatePickerField
-                      name={`educations.${index}.startDate`}
-                      // label='start date'
-
-                      inputVariant="outlined"
-                      placeholder="MM/dd/yyyy"
-                      minDate={new Date()}
-                      maxDate={new Date('2050/12/31')}
-                      fullWidth
-                    />
-                    <DatePickerField
-                      name={`educations.${index}.endDate`}
-                      inputVariant="outlined"
-                      placeholder="MM/dd/yyyy"
-                      minDate={new Date()}
-                      maxDate={new Date('2050/12/31')}
-                      fullWidth
-                    />
+                    <Box>
+                      <DatePickerField
+                        name={`educations.${index}.due_date`}
+                        label="დამთავრების თარიღი"
+                        inputVariant="outlined"
+                        placeholder="MM/dd/yyyy"
+                        minDate={new Date()}
+                        maxDate={new Date('2050/12/31')}
+                        fullWidth
+                      />
+                    </Box>
                   </Stack>
                   <Box mb={4}>
                     <InputField
@@ -94,10 +90,9 @@ const EducationStep = () => {
                 className="secondary"
                 onClick={() =>
                   push({
-                    university: '',
-                    degree: '',
-                    startDate: null,
-                    endDate: null,
+                    institute: '',
+                    degree_id: '',
+                    due_date: null,
                     description: '',
                   })
                 }

@@ -1,11 +1,10 @@
-import { Stack, Box, Grid, Button } from '@mui/material';
-import React from 'react';
-import FormikControl from '../../../components/FormikControl';
+import { Stack, Box, Grid } from '@mui/material';
+import React, { useState } from 'react';
 import Resume from '../../../components/Resume';
 import InputField from '../../../components/InputField';
 import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
-
+import BaseFileUploadSingle from '../../../components/FIleUploadSingle';
 
 const ProfileInfoStep = () => {
   const props = useFormikContext();
@@ -13,6 +12,7 @@ const ProfileInfoStep = () => {
     <Grid container spacing={10}>
       <Grid item xs={7}>
         <FormHeader headerText={'ჩვენს შესახებ'} pageNumber={1} />
+
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -22,25 +22,25 @@ const ProfileInfoStep = () => {
           <Box>
             <InputField
               label="სახელი"
-              name="profileInfo.name"
+              name="name"
               placeholder="ანზორ"
             />
           </Box>
           <Box>
             <InputField
               label="გვარი"
-              name="profileInfo.surname"
+              name="surname"
               placeholder="მუმლაძე"
             />
           </Box>
         </Stack>
         <Box mb={4}>
-          <FormikControl name="image" control="upload-single" />
+          <BaseFileUploadSingle name="image" control="upload-single" />
         </Box>
         <Box mb={4}>
           <InputField
-            label="ჩვენს შესახებ"
-            name="profileInfo.aboutUs"
+            label="ჩემს შესახებ/არასავალდებულო"
+            name="aboutUs"
             placeholder="ზოგი ინფო ჩვენს შესახებ"
             multiline
             rows={4}
@@ -50,7 +50,7 @@ const ProfileInfoStep = () => {
         <Box mb={4}>
           <InputField
             label="ელ.ფოსტა"
-            name="profileInfo.email"
+            name="email"
             placeholder="anzor666@redberry.ge"
           />
         </Box>
@@ -58,7 +58,7 @@ const ProfileInfoStep = () => {
           <InputField
             control="input"
             label="მობილურის ნომერი "
-            name="profileInfo.phone"
+            name="phone_number"
             placeholder="+995 599 77 90 56"
           />
         </Box>

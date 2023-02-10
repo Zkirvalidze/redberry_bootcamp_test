@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useField } from 'formik';
-import Grid from '@material-ui/core/Grid';
+import { Grid } from '@mui/material';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 
-export default function DatePickerField(props) {
+export default function DatePickerField({label,...props}) {
   const [field, meta, helper] = useField(props);
   const { touched, error } = meta;
   const { setValue } = helper;
@@ -38,6 +38,7 @@ export default function DatePickerField(props) {
 
   return (
     <Grid container>
+      <label name={field.name}>{label}</label>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           {...field}
