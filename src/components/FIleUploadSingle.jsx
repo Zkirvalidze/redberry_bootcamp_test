@@ -2,14 +2,15 @@ import { useFormikContext } from 'formik';
 import { useEffect, useRef } from 'react';
 
 const BaseFileUploadSingle = (props) => {
-  const { name, label, ...rest } = props;
-  const { setFieldValue, values } = useFormikContext();
+  const { name, label, onImgUpload, ...rest } = props;
+  const { setFieldValue } = useFormikContext();
   const uploadImageInputRef = useRef(null);
 
   function handleFileUpload(e) {
     readImageFile(e)
       .then((res) => {
         localStorage.setItem(name, JSON.stringify(res));
+        _emitImgToParent(res.blob);
       })
       .catch((e) => console.error(e));
   }
@@ -30,8 +31,15 @@ const BaseFileUploadSingle = (props) => {
     const data = localStorage.getItem(name);
     if (data) {
       const { blob, fileName } = JSON.parse(data);
+      _emitImgToParent(blob);
       const file = new File([blob], fileName);
       return file;
+    }
+  }
+
+  function _emitImgToParent(blob) {
+    if (onImgUpload) {
+      onImgUpload(blob);
     }
   }
 
@@ -63,8 +71,6 @@ const BaseFileUploadSingle = (props) => {
           handleFileUpload(e);
         }}
       />
-
-      <img src="" alt="" />
     </>
   );
 };

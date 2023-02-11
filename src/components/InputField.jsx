@@ -7,8 +7,9 @@ import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined
 import InputAdornment from '@mui/material/InputAdornment';
 const InputField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
-  const adornmentLogic = meta.touched&&(
-    field.value && !meta.error
+
+  const adornmentLogic = meta.touched
+    ? field.value && !meta.error
       ? {
           endAdornment: (
             <InputAdornment position="end">
@@ -23,7 +24,7 @@ const InputField = ({ label, ...props }) => {
             </InputAdornment>
           ),
         }
-  );
+    : null;
   return (
     <>
       <label
@@ -36,15 +37,15 @@ const InputField = ({ label, ...props }) => {
         fullWidth
         InputProps={adornmentLogic}
         sx={
-          !meta.error &&
-          field.value &&
-          meta.touched && {
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: 'green ',
-              },
-            },
-          }
+          !meta.error && field.value && meta.touched
+            ? {
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderColor: 'green ',
+                  },
+                },
+              }
+            : null
         }
         {...field}
         {...props}

@@ -32,8 +32,6 @@ const EducationStep = () => {
           {({ insert, remove, push }) => (
             <div>
               {props.values.educations.map((edu, index) => (
-                //
-
                 <div className="row" key={index}>
                   <Box my="40px">
                     <InputField
@@ -42,7 +40,7 @@ const EducationStep = () => {
                       placeholder="უნივერსიტეტი"
                     />
                   </Box>
-                  <Stack direction="row" justifyContent="space-between" gap={4}>
+                  <Stack direction="row" justifyContent="space-between" alignItems='baseline' gap={4}>
                     <SelectField
                       name={`educations.${index}.degree_id`}
                       label={'ხარისხი'}

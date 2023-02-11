@@ -62,7 +62,6 @@ const EXPERIANCE_SCHEMA = Yup.object().shape({
       const isAtLeastOneExpFilled = experiences.some((exp) =>
         Object.values(exp).every((val) => !!val)
       );
-      console.log(isAtLeastOneExpFilled);
       if (!isAtLeastOneExpFilled) {
         return this.createError({ message: 'დაამატეთ სულ მცირე 1 გამოცდილება!' });
       }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { at } from 'lodash';
 import { useField } from 'formik';
 import {
-  InputLabel,
   FormControl,
   Select,
   MenuItem,
@@ -26,7 +25,7 @@ function SelectField(props) {
   return (
     <FormControl {...rest} error={isError}>
       <label>{label}</label>
-      <Select {...field} value={selectedValue ? selectedValue : ''}>
+      <Select {...field} defaultValue="" value={selectedValue}>
         {data.map((item, index) => (
           <MenuItem key={index} value={item.id}>
             {item.title}

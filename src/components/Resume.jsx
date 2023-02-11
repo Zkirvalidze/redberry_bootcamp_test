@@ -1,20 +1,9 @@
 import React from 'react';
-
-import { Stack, Box, Typography, Grid, Card } from '@mui/material';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { Box, Typography } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-const Resume = ({ props }) => {
-  const [imageSrc, setImageSrc] = useState(null);
 
-  useEffect(() => {
-    const image = localStorage.getItem('image');
-    if (image) {
-      setImageSrc(() => JSON.parse(image).blob);
-    }
-  }, []);
-
-  const { name, surname, email, phone_number, aboutUs } = props.values
+const Resume = ({ props, imgSrc }) => {
+  const { name, surname, email, phone_number, aboutUs } = props.values;
   const experiences = props.values.experiences;
   const educations = props.values.educations;
 
@@ -48,9 +37,9 @@ const Resume = ({ props }) => {
             )}
           </Box>
           <Box>
-            {imageSrc && (
+            {imgSrc && (
               <img
-                src={imageSrc}
+                src={imgSrc}
                 alt="img"
                 className=" absolute  top-10 right-10 w-[246px] h-[246px] rounded-full"
               />
@@ -65,7 +54,7 @@ const Resume = ({ props }) => {
           )}
           {experiences.map((exp, index) => {
             return (
-              <>
+              <div key={index}>
                 {exp.position && (
                   <p className="mt-6 text-xl  ">
                     {exp.position}, {exp.employer}
@@ -87,7 +76,7 @@ const Resume = ({ props }) => {
                 {exp.description && (
                   <Box className="mt-6 border-b-2 border-gray-400  " />
                 )}
-              </>
+              </div>
             );
           })}
         </Box>
@@ -99,7 +88,7 @@ const Resume = ({ props }) => {
           )}
           {educations.map((edu, index) => {
             return (
-              <>
+              <div key={index}>
                 {edu.institute && (
                   <p className="mt-6 text}-xl min-w-[400px] ">
                     {edu.institute}, {edu.degree_id}
@@ -117,7 +106,7 @@ const Resume = ({ props }) => {
                 >
                   {edu.description}
                 </Typography>
-              </>
+              </div>
             );
           })}
         </Box>

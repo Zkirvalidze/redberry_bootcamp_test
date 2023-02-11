@@ -38,6 +38,7 @@ const ExperienceStep = () => {
                   <Stack
                     direction="row"
                     justifyContent="space-between"
+                    alignItems="baseline"
                     gap={10}
                     my="40px"
                   >

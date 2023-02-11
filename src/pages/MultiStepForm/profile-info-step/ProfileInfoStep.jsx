@@ -8,6 +8,11 @@ import BaseFileUploadSingle from '../../../components/FIleUploadSingle';
 
 const ProfileInfoStep = () => {
   const props = useFormikContext();
+  const [imgSrc, setImgSrc] = useState(null);
+  function onImgUpload(blob) {
+    setImgSrc(blob);
+  }
+
   return (
     <Grid container spacing={10}>
       <Grid item xs={7}>
@@ -16,7 +21,7 @@ const ProfileInfoStep = () => {
         <Stack
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
+          alignItems="baseline"
           my="40px"
         >
           <Box>
@@ -35,7 +40,11 @@ const ProfileInfoStep = () => {
           </Box>
         </Stack>
         <Box mb={4}>
-          <BaseFileUploadSingle name="image" control="upload-single" />
+          <BaseFileUploadSingle
+            onImgUpload={onImgUpload}
+            name="image"
+            control="upload-single"
+          />
         </Box>
         <Box mb={4}>
           <InputField
@@ -64,7 +73,7 @@ const ProfileInfoStep = () => {
         </Box>
       </Grid>
       <Grid item xs={5}>
-        <Resume props={props} />
+        <Resume props={props} imgSrc={imgSrc} />
       </Grid>
     </Grid>
   );
