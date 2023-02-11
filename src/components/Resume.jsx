@@ -1,12 +1,13 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import FormHeader from './FormHeader';
 
-const Resume = ({ props, imgSrc }) => {
+const Resume = ({ props, imgSrc, formSent }) => {
   const { name, surname, email, phone_number, aboutUs } = props.values;
   const experiences = props.values.experiences;
   const educations = props.values.educations;
-  console.log(props)
+
   return (
     <>
       <Box mx={4}>
@@ -83,7 +84,7 @@ const Resume = ({ props, imgSrc }) => {
         <Box className="education-part">
           {educations[0].institute && (
             <Typography variant="h5" color="red" fontWeight="600" mt={4}>
-              გამოცდილება
+              განათლება
             </Typography>
           )}
           {educations.map((edu, index) => {

@@ -28,7 +28,7 @@ function SelectField(props) {
       <Select {...field} defaultValue="" value={selectedValue}>
         {data.map((item, index) => (
           <MenuItem key={index} value={item.id}>
-            {item.title}
+            {item.id}. {item.title}
           </MenuItem>
         ))}
       </Select>

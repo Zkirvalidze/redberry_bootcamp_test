@@ -8,7 +8,7 @@ import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
 import Resume from '../../../components/Resume';
 import SelectField from '../../../components/SelectField';
-
+import { Button } from '@material-ui/core';
 const EducationStep = () => {
   const props = useFormikContext();
   const [degrees, setDegrees] = useState([]);
@@ -40,7 +40,12 @@ const EducationStep = () => {
                       placeholder="უნივერსიტეტი"
                     />
                   </Box>
-                  <Stack direction="row" justifyContent="space-between" alignItems='baseline' gap={4}>
+                  <Stack
+                    direction="row"
+                    justifyContent="space-between"
+                    alignItems="baseline"
+                    gap={4}
+                  >
                     <SelectField
                       name={`educations.${index}.degree_id`}
                       label={'ხარისხი'}
@@ -71,32 +76,25 @@ const EducationStep = () => {
                     />
                   </Box>
 
-                  <div className="col">
-                    <button
-                      type="button"
-                      className="secondary"
-                      onClick={() => remove(index)}
-                    >
-                      X
-                    </button>
-                  </div>
-                  <Box className="border-b-2 border-black  " my={10} />
+                  <Box className="border-b-2 border-black  " my={4} />
                 </div>
               ))}
-              <button
-                type="button"
-                className="secondary"
-                onClick={() =>
-                  push({
-                    institute: '',
-                    degree_id: '',
-                    due_date: null,
-                    description: '',
-                  })
-                }
-              >
-                Add educations
-              </button>
+              <Box mb={4}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() =>
+                    push({
+                      institute: '',
+                      degree_id: '',
+                      due_date: null,
+                      description: '',
+                    })
+                  }
+                >
+                  Add educations
+                </Button>
+              </Box>
             </div>
           )}
         </FieldArray>

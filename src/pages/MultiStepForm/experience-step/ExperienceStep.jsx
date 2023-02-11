@@ -1,11 +1,12 @@
 import React from 'react';
-import { Stack, Box, Grid, Button } from '@mui/material';
+import { Stack, Box, Grid } from '@mui/material';
 import { FieldArray, useFormikContext } from 'formik';
 
 import FormHeader from '../../../components/FormHeader';
 import Resume from '../../../components/Resume';
 import InputField from '../../../components/InputField';
 import DatePickerField from '../../../components/Datepicker';
+import { Button } from '@material-ui/core';
 
 const ExperienceStep = () => {
   const props = useFormikContext();
@@ -74,30 +75,25 @@ const ExperienceStep = () => {
                     />
                   </Box>
                   <Box className="border-b-2 border-black  " my={4} />
-                  <button
-                    type="button"
-                    className="secondary"
-                    onClick={() => remove(index)}
-                  >
-                    X
-                  </button>
                 </Box>
               ))}
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() =>
-                  push({
-                    position: '',
-                    employer: '',
-                    srart_date: null,
-                    due_date: null,
-                    description: '',
-                  })
-                }
-              >
-                Add job
-              </Button>
+              <Box mb={4}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={() =>
+                    push({
+                      position: '',
+                      employer: '',
+                      srart_date: null,
+                      due_date: null,
+                      description: '',
+                    })
+                  }
+                >
+                  მეტი გამოცდილების დამატება
+                </Button>
+              </Box>
             </>
           )}
         </FieldArray>
