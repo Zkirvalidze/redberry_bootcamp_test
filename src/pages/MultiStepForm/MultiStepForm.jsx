@@ -38,31 +38,48 @@ export function FormikStepper({ children, ...props }) {
 
   const isLastStep = activeStep === childrenArray.length - 1;
 
+  function toFormData(o) {
+    return Object.entries(o).reduce(
+      (d, e) => (d.append(...e), d),
+      new FormData()
+    );
+  }
+
   function _submitForm(values, actions) {
     const postData = async (val) => {
+      const formData = new FormData();
+
+      for (const name in val) {
+        if (Array.isArray(val[name])) {
+          val[name].forEach((item) => {
+            formData.append(val[name], JSON.stringify(item));
+          });
+        } else {
+          formData.append(name, val[name]);
+        }
+      }
+
       const postForm = await fetch(
         'https://resume.redberryinternship.ge/api/cvs',
         {
           method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(val),
+          body: formData,
         }
       );
       const resp = await response.json();
-      console.log(values);
     };
+    console.log;
     postData(values);
     actions.setSubmitting(false);
 
-    setActiveStep(activeStep + 1);
+    if (!isLastStep) {
+      setActiveStep(activeStep + 1);
+    }
   }
 
   function _handleSubmit(values, actions) {
     if (isLastStep) {
-      console.log('submiting')
+      console.log('submiting', values);
       _submitForm(values, actions);
     } else {
       setActiveStep((prev) => prev + 1);
@@ -86,10 +103,18 @@ export function FormikStepper({ children, ...props }) {
         {currrentChild}
         <div className="flex justify-between max-w-[56%]">
           <div>
-            {activeStep !== 0 && <Button onClick={_handleBack}>Back</Button>}
+            {activeStep !== 0 && (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={_handleBack}
+              >
+                Back
+              </Button>
+            )}
           </div>
           <div>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="secondary">
               {isLastStep ? 'submit' : 'შემდეგი'}
             </Button>
           </div>

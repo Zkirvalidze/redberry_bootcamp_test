@@ -6,7 +6,7 @@ const Resume = ({ props, imgSrc }) => {
   const { name, surname, email, phone_number, aboutUs } = props.values;
   const experiences = props.values.experiences;
   const educations = props.values.educations;
-
+  console.log(props)
   return (
     <>
       <Box mx={4}>
