@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import FormHeader from './FormHeader';
 
 const Resume = ({ props, imgSrc, formSent }) => {
   const { name, surname, email, phone_number, aboutUs } = props.values;

@@ -26,7 +26,7 @@ export default function DatePickerField({label,...props}) {
     if (date) {
       setSelectedDate(date);
       try {
-        const ISODateString = date.toISOString();
+        const ISODateString = date.toISOString().split('T')[0];
         setValue(ISODateString);
       } catch (error) {
         setValue(date);
