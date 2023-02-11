@@ -25,18 +25,10 @@ const ProfileInfoStep = () => {
           my="40px"
         >
           <Box>
-            <InputField
-              label="სახელი"
-              name="name"
-              placeholder="ანზორ"
-            />
+            <InputField label="სახელი" name="name" placeholder="ანზორ" />
           </Box>
           <Box>
-            <InputField
-              label="გვარი"
-              name="surname"
-              placeholder="მუმლაძე"
-            />
+            <InputField label="გვარი" name="surname" placeholder="მუმლაძე" />
           </Box>
         </Stack>
         <Box mb={4}>
@@ -44,6 +36,7 @@ const ProfileInfoStep = () => {
             onImgUpload={onImgUpload}
             name="image"
             control="upload-single"
+            persistValue={true}
           />
         </Box>
         <Box mb={4}>

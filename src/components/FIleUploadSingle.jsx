@@ -1,13 +1,14 @@
 import { useFormikContext } from 'formik';
 import { useEffect, useRef } from 'react';
+import { attachFileToInput, createFileFromBase64, readFile } from '../utils/file.utils';
 
 const BaseFileUploadSingle = (props) => {
-  const { name, label, onImgUpload, ...rest } = props;
   const { setFieldValue } = useFormikContext();
+  const { name, label, onImgUpload, persistValue, ...rest } = props;
   const uploadImageInputRef = useRef(null);
 
   function handleFileUpload(e) {
-    readImageFile(e)
+    readFile(e)
       .then((res) => {
         localStorage.setItem(name, JSON.stringify(res));
         _emitImgToParent(res.blob);
@@ -15,25 +16,12 @@ const BaseFileUploadSingle = (props) => {
       .catch((e) => console.error(e));
   }
 
-  function readImageFile(event) {
-    return new Promise((resolve, reject) => {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-
-      reader.onloadend = function () {
-        resolve({ blob: reader.result, fileName: file.name });
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function createFileFromBase64() {
+  function transformBlobToFile() {
     const data = localStorage.getItem(name);
     if (data) {
       const { blob, fileName } = JSON.parse(data);
       _emitImgToParent(blob);
-      const file = new File([blob], fileName);
-      return file;
+      return createFileFromBase64(blob, fileName);
     }
   }
 
@@ -44,18 +32,14 @@ const BaseFileUploadSingle = (props) => {
   }
 
   useEffect(() => {
-    const file = createFileFromBase64();
-    if (file) {
-      setFieldValue(name, file);
-      updateInput(file);
+    if (persistValue) {
+      const file = transformBlobToFile();
+      if (file) {
+        setFieldValue(name, file);
+        attachFileToInput(file, uploadImageInputRef);
+      }
     }
   }, []);
-
-  function updateInput(file) {
-    let container = new DataTransfer();
-    container.items.add(file);
-    uploadImageInputRef.current.files = container.files;
-  }
 
   return (
     <>
@@ -68,7 +52,11 @@ const BaseFileUploadSingle = (props) => {
         {...rest}
         onChange={(e) => {
           setFieldValue(name, e.target.files[0]);
-          handleFileUpload(e);
+          if (persistValue) {
+            if (e.target.files.length > 0) {
+              handleFileUpload(e);
+            }
+          }
         }}
       />
     </>
