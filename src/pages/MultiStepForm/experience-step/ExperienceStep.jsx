@@ -4,8 +4,8 @@ import { FieldArray, useFormikContext } from 'formik';
 
 import FormHeader from '../../../components/FormHeader';
 import Resume from '../../../components/Resume';
-import InputField from '../../../components/InputField';
-import DatePickerField from '../../../components/Datepicker';
+import InputField from '../../../shared/forms/InputField';
+import DatePickerField from '../../../shared/forms/Datepicker';
 import { Button } from '@material-ui/core';
 
 const ExperienceStep = () => {

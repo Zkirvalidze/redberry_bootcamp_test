@@ -1,10 +1,10 @@
 import { Stack, Box, Grid } from '@mui/material';
 import React, { useState } from 'react';
 import Resume from '../../../components/Resume';
-import InputField from '../../../components/InputField';
+import InputField from '../../../shared/forms/InputField';
 import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
-import BaseFileUploadSingle from '../../../components/FIleUploadSingle';
+import BaseFileUploadSingle from '../../../shared/forms/FIleUploadSingle';
 
 const ProfileInfoStep = () => {
   const props = useFormikContext();

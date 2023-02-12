@@ -2,14 +2,14 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 
-const Resume = ({ props, imgSrc, formSent }) => {
-  const { name, surname, email, phone_number, aboutUs } = props.values;
-  const experiences = props.values.experiences;
-  const educations = props.values.educations;
+const Resume = ({ props, imgSrc, data }) => {
+    const { name, surname, email, phone_number, aboutUs } = props?.values||data
+    const experiences = props?.values?.experiences||data.experiences
+    const educations = props?.values?.educations||data.educations
 
   return (
     <>
-      <Box mx={4}>
+      <Box mx={4} sx={data?{marginX:"600px"}:null}>
         <Box className="Profile-part">
           <Box mt="50px" position="relative">
             <Typography variant="h4" color="red" fontWeight="600">
@@ -60,13 +60,11 @@ const Resume = ({ props, imgSrc, formSent }) => {
                     {exp.position}, {exp.employer}
                   </p>
                 )}
-                {exp.setImageSrc ||
-                  (exp.due_Date && (
-                    <p className=" text-xl text-gray-400 min-w-[400px] ">
-                      {JSON.stringify(exp.start_Date).substring(1, 11)}-
-                      {JSON.stringify(exp.due_Date).substring(1, 11)}
-                    </p>
-                  ))}
+
+                <p className=" text-xl text-gray-400 min-w-[400px] ">
+                  {exp.start_date}--{exp.due_date}
+                </p>
+
                 <Typography
                   className="mt-6 text-xl min-w-[400px] "
                   sx={{ wordBreak: 'break-word' }}
@@ -94,12 +92,11 @@ const Resume = ({ props, imgSrc, formSent }) => {
                     {edu.institute}, {edu.degree_id}
                   </p>
                 )}
-                {edu.setImageSrc ||
-                  (edu.due_Date && (
-                    <p className=" text-xl text-gray-400 min-w-[400px] ">
-                      {JSON.stringify(edu.due_Date).substring(1, 11)}
-                    </p>
-                  ))}
+
+                <p className=" text-xl text-gray-400 min-w-[400px] ">
+                  {edu.due_date}
+                </p>
+
                 <Typography
                   className="mt-6 text-xl  "
                   // sx={{ wordBreak: 'break-word' }}

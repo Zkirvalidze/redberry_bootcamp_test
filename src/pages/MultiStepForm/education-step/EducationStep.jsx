@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import InputField from '../../../components/InputField';
+import InputField from '../../../shared/forms/InputField';
 import { Stack, Box, Grid } from '@mui/material';
 import { FieldArray } from 'formik';
 
-import DatePickerField from '../../../components/Datepicker';
+import DatePickerField from '../../../shared/forms/Datepicker';
 import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
 import Resume from '../../../components/Resume';
-import SelectField from '../../../components/SelectField';
+import SelectField from '../../../shared/forms/SelectField';
 import { Button } from '@material-ui/core';
 const EducationStep = () => {
   const props = useFormikContext();

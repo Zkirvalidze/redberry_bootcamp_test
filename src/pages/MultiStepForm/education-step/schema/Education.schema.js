@@ -41,7 +41,7 @@ const EDUCATIONS_SCHEMA = Yup.object().shape({
       const isAtLeastOneEduFilled = educations.some((edu) =>
         Object.values(edu).every((val) => !!val)
       );
-      console.log(isAtLeastOneEduFilled);
+   
       if (!isAtLeastOneEduFilled) {
         return this.createError({ message: 'დაამატეთ სულ მცირე 1 განათლება!' });
       }

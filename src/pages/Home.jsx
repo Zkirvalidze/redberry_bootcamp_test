@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Stack, Typography } from '@mui/material';
 import { logo1, logo2 } from '../assets';
-import { HOME_BUTTON_TEXT } from '../data/Constants';
+import { HOME_BUTTON_TEXT } from './MultiStepForm/form-initial-values';
 const Home = () => {
   const navigate = useNavigate();
   return (

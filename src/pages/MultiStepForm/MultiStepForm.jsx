@@ -2,9 +2,11 @@ import { useState, useEffect, Children } from 'react';
 import { Formik, Form } from 'formik';
 import { Persist } from 'formik-persist';
 import { Button } from '@mui/material';
-import { INITIAL_VALUES } from '../../data/Constants';
 import axios from 'axios';
 
+import Resume from '../../components/Resume';
+import { INITIAL_VALUES } from './form-initial-values';
+import { buildFormData } from '../../utils/formdata.utils';
 /* Steps */
 import ProfileInfoStep from './profile-info-step/ProfileInfoStep';
 import ExperienceStep from './experience-step/ExperienceStep';
@@ -14,7 +16,6 @@ import EducationStep from './education-step/EducationStep';
 import { PROFILE_INFO_SCHEMA } from './profile-info-step/schema/profile-info.schema';
 import { EDUCATIONS_SCHEMA } from './education-step/schema/Education.schema';
 import { EXPERIANCE_SCHEMA } from './experience-step/schema/experience.schema';
-import { buildFormData } from '../../utils/formdata.utils';
 
 const MultiStepForm = () => {
   return (
@@ -31,18 +32,37 @@ export function FormikStepper({ children, ...props }) {
   const [activeStep, setActiveStep] = useState(
     JSON.parse(localStorage.getItem('activeStep')) || 0
   );
+
+  const [displayFinalResume, setDisplayFinalResume] = useState(null);
+
   useEffect(() => {
     localStorage.setItem('activeStep', JSON.stringify(activeStep));
   }, [activeStep]);
 
   const childrenArray = Children.toArray(children);
   const currrentChild = childrenArray[activeStep];
-
   const isLastStep = activeStep === childrenArray.length - 1;
 
-  const postFormData = (formValues) => {
+  function getFullyFilledObjects(arr) {
+    return arr.filter((el) => Object.values(el).every((val) => !!val));
+  }
+
+  function createResumeDto(formValues) {
+    let dataToSend = { ...formValues };
+    const filledEducations = getFullyFilledObjects(dataToSend.educations);
+    const filledExperiences = getFullyFilledObjects(dataToSend.experiences);
+    dataToSend = {
+      ...dataToSend,
+      experiences: filledExperiences,
+      educations: filledEducations,
+    };
     let formData = new FormData();
-    formData = buildFormData(formData, formValues);
+    formData = buildFormData(formData, dataToSend);
+    return formData;
+  }
+
+  const postFormData = (formValues) => {
+    const formData = createResumeDto(formValues);
     axios
       .post('https://resume.redberryinternship.ge/api/cvs', formData, {
         headers: {
@@ -50,7 +70,12 @@ export function FormikStepper({ children, ...props }) {
         },
       })
       .then((res) => {
-        console.log(res);
+        if (res.status === 201) {
+          console.log(res.data);
+
+          localStorage.setItem('form', INITIAL_VALUES);
+          setDisplayFinalResume(res.data);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -59,7 +84,6 @@ export function FormikStepper({ children, ...props }) {
 
   function _handleSubmit(values, actions) {
     if (isLastStep) {
-      console.log('submiting', values);
       postFormData(values);
     } else {
       setActiveStep((prev) => prev + 1);
@@ -72,7 +96,9 @@ export function FormikStepper({ children, ...props }) {
     setActiveStep((prev) => prev - 1);
   }
 
-  return (
+  return displayFinalResume ? (
+    <Resume data={displayFinalResume} />
+  ) : (
     <Formik
       {...props}
       validationSchema={currrentChild.props.validationSchema}

@@ -1,6 +1,6 @@
 import { useFormikContext } from 'formik';
 import { useEffect, useRef } from 'react';
-import { attachFileToInput, createFileFromBase64, readFile } from '../utils/file.utils';
+import { attachFileToInput, createFileFromBase64, readFile } from '../../utils/file.utils';
 
 const BaseFileUploadSingle = (props) => {
   const { setFieldValue } = useFormikContext();
