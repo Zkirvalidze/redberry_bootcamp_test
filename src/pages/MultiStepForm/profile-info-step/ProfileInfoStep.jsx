@@ -1,21 +1,13 @@
 import { Stack, Box, Grid } from '@mui/material';
-import React, { useState } from 'react';
-import Resume from '../../../components/Resume';
+import React from 'react';
 import InputField from '../../../shared/forms/InputField';
-import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
 import BaseFileUploadSingle from '../../../shared/forms/FIleUploadSingle';
 
-const ProfileInfoStep = () => {
-  const props = useFormikContext();
-  const [imgSrc, setImgSrc] = useState(null);
-  function onImgUpload(blob) {
-    setImgSrc(blob);
-  }
-
+const ProfileInfoStep = ({ imgUploadCB }) => {
   return (
     <Grid container spacing={10}>
-      <Grid item xs={7}>
+      <Grid item xs={12}>
         <FormHeader headerText={'ჩვენს შესახებ'} pageNumber={1} />
 
         <Stack
@@ -33,7 +25,7 @@ const ProfileInfoStep = () => {
         </Stack>
         <Box mb={4}>
           <BaseFileUploadSingle
-            onImgUpload={onImgUpload}
+            imgUploadCB={imgUploadCB}
             name="image"
             control="upload-single"
             persistValue={true}
@@ -64,9 +56,6 @@ const ProfileInfoStep = () => {
             placeholder="+995 599 77 90 56"
           />
         </Box>
-      </Grid>
-      <Grid item xs={5}>
-        <Resume props={props} imgSrc={imgSrc} />
       </Grid>
     </Grid>
   );

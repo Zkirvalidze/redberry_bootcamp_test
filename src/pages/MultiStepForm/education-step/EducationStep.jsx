@@ -6,26 +6,15 @@ import { FieldArray } from 'formik';
 import DatePickerField from '../../../shared/forms/Datepicker';
 import { useFormikContext } from 'formik';
 import FormHeader from '../../../components/FormHeader';
-import Resume from '../../../components/Resume';
 import SelectField from '../../../shared/forms/SelectField';
 import { Button } from '@material-ui/core';
-const EducationStep = () => {
-  const props = useFormikContext();
-  const [degrees, setDegrees] = useState([]);
-  useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(
-        'https://resume.redberryinternship.ge/api/degrees'
-      );
-      const data = await response.json();
-      setDegrees(data);
-    };
-    getData();
-  }, []);
 
+const EducationStep = ({degrees}) => {
+  const props = useFormikContext();
+ 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={7}>
+      <Grid item xs={12}>
         <FormHeader headerText={'განათლება'} pageNumber={3} />
 
         <FieldArray name="educations">
@@ -98,9 +87,6 @@ const EducationStep = () => {
             </div>
           )}
         </FieldArray>
-      </Grid>
-      <Grid item xs={5}>
-        <Resume props={props} />
       </Grid>
     </Grid>
   );

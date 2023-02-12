@@ -3,7 +3,6 @@ import { Stack, Box, Grid } from '@mui/material';
 import { FieldArray, useFormikContext } from 'formik';
 
 import FormHeader from '../../../components/FormHeader';
-import Resume from '../../../components/Resume';
 import InputField from '../../../shared/forms/InputField';
 import DatePickerField from '../../../shared/forms/Datepicker';
 import { Button } from '@material-ui/core';
@@ -12,7 +11,7 @@ const ExperienceStep = () => {
   const props = useFormikContext();
   return (
     <Grid container spacing={10}>
-      <Grid item xs={7}>
+      <Grid item xs={12}>
         <FormHeader headerText={'გამოცდილება'} pageNumber={2} />
         <FieldArray name="experiences">
           {({ remove, push }) => (
@@ -97,9 +96,6 @@ const ExperienceStep = () => {
             </>
           )}
         </FieldArray>
-      </Grid>
-      <Grid item xs={5}>
-        <Resume props={props} />
       </Grid>
     </Grid>
   );

@@ -1,12 +1,10 @@
-import { useState, useEffect, Children } from 'react';
+import { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import { Persist } from 'formik-persist';
 import { Button } from '@mui/material';
-import axios from 'axios';
 
 import Resume from '../../components/Resume';
 import { INITIAL_VALUES } from './form-initial-values';
-import { buildFormData } from '../../utils/formdata.utils';
 /* Steps */
 import ProfileInfoStep from './profile-info-step/ProfileInfoStep';
 import ExperienceStep from './experience-step/ExperienceStep';
@@ -16,117 +14,118 @@ import EducationStep from './education-step/EducationStep';
 import { PROFILE_INFO_SCHEMA } from './profile-info-step/schema/profile-info.schema';
 import { EDUCATIONS_SCHEMA } from './education-step/schema/Education.schema';
 import { EXPERIANCE_SCHEMA } from './experience-step/schema/experience.schema';
+import useStep from '../../hooks/useStep';
+import { postFormData } from './multi-step-form.service';
 
-const MultiStepForm = () => {
-  return (
-    <FormikStepper enableReinitialize>
-      <ProfileInfoStep validationSchema={PROFILE_INFO_SCHEMA} />
-      <ExperienceStep validationSchema={EXPERIANCE_SCHEMA} />
-      <EducationStep validationSchema={EDUCATIONS_SCHEMA} />
-    </FormikStepper>
+export default function MultiStepForm() {
+  const [degrees, setDegrees] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      const response = await fetch(
+        'https://resume.redberryinternship.ge/api/degrees'
+      );
+      const data = await response.json();
+      setDegrees(data);
+    };
+    getData();
+  }, []);
+
+  const [imgSrc, setImgSrc] = useState(
+    JSON.parse(localStorage.getItem('image'))?.blob || null
   );
-};
-export default MultiStepForm;
-
-export function FormikStepper({ children, ...props }) {
-  const [activeStep, setActiveStep] = useState(
-    JSON.parse(localStorage.getItem('activeStep')) || 0
-  );
-
   const [displayFinalResume, setDisplayFinalResume] = useState(null);
 
+  const steps = [
+    {
+      id: 'ProfileInfoStep',
+      cmp: <ProfileInfoStep imgUploadCB={onImgUploadCB} />,
+      schema: PROFILE_INFO_SCHEMA,
+    },
+    {
+      id: 'ExperienceStep',
+      cmp: <ExperienceStep />,
+      schema: EXPERIANCE_SCHEMA,
+    },
+    {
+      id: 'EducationStep',
+      cmp: <EducationStep degrees={degrees} />,
+      schema: EDUCATIONS_SCHEMA,
+    },
+  ];
+  const { index, navigation, isLastStep } = useStep({
+    steps,
+    initialStep: +localStorage.getItem('activeStep') || 0,
+  });
+
+  /* persist active step on refresh */
   useEffect(() => {
-    localStorage.setItem('activeStep', JSON.stringify(activeStep));
-  }, [activeStep]);
+    localStorage.setItem('activeStep', index);
+  }, [index]);
 
-  const childrenArray = Children.toArray(children);
-  const currrentChild = childrenArray[activeStep];
-  const isLastStep = activeStep === childrenArray.length - 1;
-
-  function getFullyFilledObjects(arr) {
-    return arr.filter((el) => Object.values(el).every((val) => !!val));
+  function onImgUploadCB(blob) {
+    setImgSrc(blob);
   }
-
-  function createResumeDto(formValues) {
-    let dataToSend = { ...formValues };
-    const filledEducations = getFullyFilledObjects(dataToSend.educations);
-    const filledExperiences = getFullyFilledObjects(dataToSend.experiences);
-    dataToSend = {
-      ...dataToSend,
-      experiences: filledExperiences,
-      educations: filledEducations,
-    };
-    let formData = new FormData();
-    formData = buildFormData(formData, dataToSend);
-    return formData;
-  }
-
-  const postFormData = (formValues) => {
-    const formData = createResumeDto(formValues);
-    axios
-      .post('https://resume.redberryinternship.ge/api/cvs', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          console.log(res.data);
-
-          localStorage.setItem('form', INITIAL_VALUES);
-          setDisplayFinalResume(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   function _handleSubmit(values, actions) {
+    console.log(isLastStep);
     if (isLastStep) {
-      postFormData(values);
+      postFormData(values)
+        .then((res) => {
+          if (res.status === 201) {
+            console.log(res.data);
+
+            localStorage.setItem('form', JSON.stringify(INITIAL_VALUES));
+            localStorage.setItem('activeStep', 0)
+            localStorage.removeItem('image')
+            setDisplayFinalResume(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } else {
-      setActiveStep((prev) => prev + 1);
+      navigation.next();
       actions.setTouched({});
       actions.setSubmitting(false);
     }
-  }
-
-  function _handleBack() {
-    setActiveStep((prev) => prev - 1);
   }
 
   return displayFinalResume ? (
     <Resume data={displayFinalResume} />
   ) : (
     <Formik
-      {...props}
-      validationSchema={currrentChild.props.validationSchema}
+      validationSchema={steps[index].schema}
       initialValues={INITIAL_VALUES}
       onSubmit={_handleSubmit}
+      enableReinitialize
     >
       {(props) => (
         <Form className="pl-[150px]">
-          {currrentChild}
-          <div className="flex justify-between max-w-[56%]">
+          <div className="flex gap-6">
             <div>
-              {activeStep !== 0 && (
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={_handleBack}
-                >
-                  Back
-                </Button>
-              )}
+              {steps[index].cmp}
+              <div className="flex justify-between">
+                <div>
+                  {index !== 0 && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={navigation.prev}
+                    >
+                      Back
+                    </Button>
+                  )}
+                </div>
+                <div>
+                  <Button type="submit" variant="contained" color="primary">
+                    {isLastStep ? 'submit' : 'შემდეგი'}
+                  </Button>
+                </div>
+              </div>
             </div>
-            <div>
-              <Button type="submit" variant="contained" color="primary">
-                {isLastStep ? 'submit' : 'შემდეგი'}
-              </Button>
-            </div>
-          </div>
 
+            <Resume props={props} imgSrc={imgSrc} degrees={degrees} />
+          </div>
           <Persist name="form" />
         </Form>
       )}

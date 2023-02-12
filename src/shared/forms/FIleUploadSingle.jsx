@@ -4,7 +4,7 @@ import { attachFileToInput, createFileFromBase64, readFile } from '../../utils/f
 
 const BaseFileUploadSingle = (props) => {
   const { setFieldValue } = useFormikContext();
-  const { name, label, onImgUpload, persistValue, ...rest } = props;
+  const { name, label, imgUploadCB, persistValue, ...rest } = props;
   const uploadImageInputRef = useRef(null);
 
   function handleFileUpload(e) {
@@ -26,8 +26,8 @@ const BaseFileUploadSingle = (props) => {
   }
 
   function _emitImgToParent(blob) {
-    if (onImgUpload) {
-      onImgUpload(blob);
+    if (imgUploadCB) {
+      imgUploadCB(blob);
     }
   }
 
@@ -52,6 +52,7 @@ const BaseFileUploadSingle = (props) => {
         {...rest}
         onChange={(e) => {
           setFieldValue(name, e.target.files[0]);
+          console.log(e.target.files[0])
           if (persistValue) {
             if (e.target.files.length > 0) {
               handleFileUpload(e);

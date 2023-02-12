@@ -2,14 +2,21 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 
-const Resume = ({ props, imgSrc, data }) => {
-    const { name, surname, email, phone_number, aboutUs } = props?.values||data
-    const experiences = props?.values?.experiences||data.experiences
-    const educations = props?.values?.educations||data.educations
+const Resume = ({ props, imgSrc, data, degrees }) => {
+  const { name, surname, email, phone_number, aboutUs } = props?.values || data;
+  const experiences = props?.values?.experiences || data.experiences;
+  const educations = props?.values?.educations || data.educations;
 
+  function getTitleById(id) {
+    if (degrees) {
+      return degrees.find((el) => el.id === id)?.title;
+    }
+  }
+  console.log(props);
+  console.log(data);
   return (
     <>
-      <Box mx={4} sx={data?{marginX:"600px"}:null}>
+      <Box mx={4} sx={data ? { marginX: '600px' } : null}>
         <Box className="Profile-part">
           <Box mt="50px" position="relative">
             <Typography variant="h4" color="red" fontWeight="600">
@@ -43,6 +50,13 @@ const Resume = ({ props, imgSrc, data }) => {
                 alt="img"
                 className=" absolute  top-10 right-10 w-[246px] h-[246px] rounded-full"
               />
+            )}
+            {data && data.image && (
+              <img
+                src={'  https://resume.redberryinternship.ge/' + data.image}
+                alt="img"
+                className=" absolute  top-10 right-10 w-[246px] h-[246px] rounded-full"
+              />  
             )}
           </Box>
         </Box>
@@ -89,7 +103,8 @@ const Resume = ({ props, imgSrc, data }) => {
               <div key={index}>
                 {edu.institute && (
                   <p className="mt-6 text}-xl min-w-[400px] ">
-                    {edu.institute}, {edu.degree_id}
+                    {edu.institute},
+                    {edu?.degree ? edu?.degree : getTitleById(edu.degree_id)}
                   </p>
                 )}
 
