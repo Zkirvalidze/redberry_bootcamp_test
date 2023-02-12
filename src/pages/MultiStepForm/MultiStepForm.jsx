@@ -67,12 +67,12 @@ export default function MultiStepForm() {
   }
 
   function _handleSubmit(values, actions) {
-    console.log(isLastStep);
+  
     if (isLastStep) {
       postFormData(values)
         .then((res) => {
           if (res.status === 201) {
-            console.log(res.data);
+      
 
             localStorage.setItem('form', JSON.stringify(INITIAL_VALUES));
             localStorage.setItem('activeStep', 0)

@@ -12,8 +12,7 @@ const Resume = ({ props, imgSrc, data, degrees }) => {
       return degrees.find((el) => el.id === id)?.title;
     }
   }
-  console.log(props);
-  console.log(data);
+
   return (
     <>
       <Box mx={4} sx={data ? { marginX: '600px' } : null}>
@@ -76,7 +75,8 @@ const Resume = ({ props, imgSrc, data, degrees }) => {
                 )}
 
                 <p className=" text-xl text-gray-400 min-w-[400px] ">
-                  {exp.start_date}--{exp.due_date}
+                  {(exp.start_date, '--')}
+                  {exp.due_date}
                 </p>
 
                 <Typography
