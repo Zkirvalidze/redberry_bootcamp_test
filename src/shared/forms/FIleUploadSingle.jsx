@@ -1,6 +1,10 @@
 import { useFormikContext } from 'formik';
 import { useEffect, useRef } from 'react';
-import { attachFileToInput, createFileFromBase64, readFile } from '../../utils/file.utils';
+import {
+  attachFileToInput,
+  createFileFromBase64,
+  readFile,
+} from '../../utils/file.utils';
 
 const BaseFileUploadSingle = (props) => {
   const { setFieldValue } = useFormikContext();
@@ -52,7 +56,7 @@ const BaseFileUploadSingle = (props) => {
         {...rest}
         onChange={(e) => {
           setFieldValue(name, e.target.files[0]);
-          console.log(e.target.files[0])
+
           if (persistValue) {
             if (e.target.files.length > 0) {
               handleFileUpload(e);
